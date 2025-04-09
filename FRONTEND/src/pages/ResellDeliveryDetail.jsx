@@ -15,7 +15,7 @@ export const ResellDeliveryDetail = () => {
     const { showAlert } = useAlert();
 
     const { resellerdata = {}, books = [], reselluser = [] } = location.state || {};
-    const userdetail = reselluser.find((u) => u._id === resellerdata.User_id) || {};
+    const userdetail = reselluser.find((u) => u._id === resellerdata.User_id._id) || {};
     const booksdetail = books.find((p) => p._id === resellerdata.Book_id);
     const email = userdetail.Email || "";
 

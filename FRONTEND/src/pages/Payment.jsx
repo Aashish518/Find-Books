@@ -126,7 +126,7 @@ export const Payment = () => {
           if (json.payment.payment_status == "Completed") {
             addorder();
           }
-          showAlert("payment success","success");
+          showAlert("payment success", "success");
           Navigate("/MyOrder");
         } catch (error) {
           console.error("Error verifying payment:", error);
@@ -190,7 +190,7 @@ export const Payment = () => {
       }
     } catch (error) {
       console.error("Error updating quantity:", error);
-      showAlert("An error occurred while updating the quantity","error");
+      showAlert("An error occurred while updating the quantity", "error");
     }
   };
 
@@ -205,7 +205,7 @@ export const Payment = () => {
       const json = await response.json();
     } catch (error) {
       console.error("Error removing item:", error);
-      showAlert("An error occurred while removing the item","error");
+      showAlert("An error occurred while removing the item", "error");
     }
   };
 
@@ -272,7 +272,7 @@ export const Payment = () => {
 
       // Ensure OrderData is properly updated after addorder()
       if (!OrderData || !OrderData._id) {
-        showAlert("Order data is missing. Please try again.","error");
+        showAlert("Order data is missing. Please try again.", "error");
         return;
       }
 
@@ -298,13 +298,13 @@ export const Payment = () => {
       const json = await response.json();
 
       if (json.payment) {
-        showAlert("Data saved successfully!","success");
+        showAlert("Data saved successfully!", "error");
         Navigate("/Orders", { state: { paymentdetail: json.payment } });
       } else {
-        showAlert("Payment data was not returned. Please try again.","error");
+        showAlert("Payment data was not returned. Please try again.", "error");
       }
     } catch (error) {
-      showAlert("An error occurred. Please try again later.","error");
+      showAlert("An error occurred. Please try again later.", "error");
       console.error("Error occurred during submission:", error);
     }
   };
@@ -366,9 +366,8 @@ export const Payment = () => {
             <h2>Payment Method</h2>
             <div className="payment-methods">
               <div
-                className={`payment-method-card ${
-                  paymentMethod === "Online" ? "selected" : ""
-                }`}
+                className={`payment-method-card ${paymentMethod === "Online" ? "selected" : ""
+                  }`}
               >
                 <input
                   type="radio"
@@ -388,9 +387,8 @@ export const Payment = () => {
               </div>
 
               <div
-                className={`payment-method-card ${
-                  paymentMethod === "COD" ? "selected" : ""
-                }`}
+                className={`payment-method-card ${paymentMethod === "COD" ? "selected" : ""
+                  }`}
               >
                 <input
                   type="radio"
@@ -423,8 +421,8 @@ export const Payment = () => {
               {loading
                 ? "Processing..."
                 : paymentMethod === "COD"
-                ? "Place Order"
-                : `Pay ₹${total + pcharge + deliveryCharge}`}
+                  ? "Place Order"
+                  : `Pay ₹${total + pcharge + deliveryCharge}`}
             </button>
           </div>
         </div>
