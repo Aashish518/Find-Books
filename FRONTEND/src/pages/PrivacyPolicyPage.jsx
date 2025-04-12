@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import '../pages-css/PrivacyPolicyPage.css'; // Import the CSS file
+import '../pages-css/PrivacyPolicyPage.css';
 
 const PrivacyPolicyPage = () => {
     return (

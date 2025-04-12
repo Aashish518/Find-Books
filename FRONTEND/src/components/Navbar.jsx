@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const [menuActive, setMenuActive] = useState(false);
-  const [showCategory, setShowCategory] = useState(false); // State to toggle Category visibility
+  const [showCategory, setShowCategory] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [role, setRole] = useState(null);
   const navigate = useNavigate();

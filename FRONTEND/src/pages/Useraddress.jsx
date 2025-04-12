@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../pages-css/Useraddress.css"; // Import the CSS file
+import "../pages-css/Useraddress.css";
 import {useNavigate } from "react-router-dom";
 import { useCart } from "../Context/order";
 import { useAlert } from "../Context/AlertContext";
@@ -11,7 +11,6 @@ export const Useraddress = () => {
     const [errors, setErrors] = useState({});
     const { showAlert } = useAlert();
 
-    console.log("cccccc",cartData)
     const [formData, setFormData] = useState({
         address: "",
         city: "",
@@ -23,27 +22,22 @@ export const Useraddress = () => {
     const validateForm = () => {
         const newErrors = {};
         
-        // Address validation
         if (formData.address.trim().length < 10) {
             newErrors.address = "Address should be at least 10 characters long";
         }
 
-        // City validation
         if (!/^[a-zA-Z\s]{3,}$/.test(formData.city)) {
             newErrors.city = "City should contain only letters and be at least 3 characters long";
         }
 
-        // State validation
         if (!/^[a-zA-Z\s]{3,}$/.test(formData.state)) {
             newErrors.state = "State should contain only letters and be at least 3 characters long";
         }
 
-        // Country validation
         if (!/^[a-zA-Z\s]{4,}$/.test(formData.country)) {
             newErrors.country = "Country should contain only letters and be at least 4 characters long";
         }
 
-        // Pincode validation
         if (!/^\d{6}$/.test(formData.pincode)) {
             newErrors.pincode = "Pincode must be exactly 6 digits";
         }
@@ -59,7 +53,6 @@ export const Useraddress = () => {
             [name]: value
         }));
         
-        // Clear error when user starts typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,

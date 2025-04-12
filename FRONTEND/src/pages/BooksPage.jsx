@@ -37,7 +37,6 @@ export const BooksPage = () => {
         setBook(bookData);
         setOriginalBooks(bookData);
 
-        // Hide books only if Resell_Status is "Sell", "Collected"
         const hiddenBookIds = new Set(
           sellOrderData.resellers
             .filter(reseller => ["Sell", "Collected"].includes(reseller.Resell_Status))

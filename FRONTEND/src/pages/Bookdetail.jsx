@@ -12,7 +12,7 @@ import {
   FaBuilding,
   FaBookmark,
   FaBarcode,
-  FaTag, // Added FaTag import
+  FaTag, 
   FaInfoCircle
 } from "react-icons/fa";
 import Cookies from "js-cookie";
@@ -25,8 +25,8 @@ export const Bookdetail = () => {
   const { bookid, book } = location.state || {};
   const {showAlert} = useAlert();
 
-  const [rating, setRating] = useState(0); // User rating
-  const [avgRating, setAvgRating] = useState(0); // Average rating
+  const [rating, setRating] = useState(0); 
+  const [avgRating, setAvgRating] = useState(0); 
   const [isNewRelease, setIsNewRelease] = useState(false);
 
   const features = [
@@ -61,7 +61,6 @@ export const Bookdetail = () => {
     return price;
 };
 
-  // Fetch average rating from backend
   const fetchAverageRating = async () => {
     try {
       const response = await fetch(
@@ -74,7 +73,6 @@ export const Bookdetail = () => {
     }
   };
 
-  // Add rating
   const addRatings = async (currentRating) => {
 
     const token = Cookies.get("token");
@@ -102,8 +100,8 @@ export const Bookdetail = () => {
   };
 
   const addtocart = async (event) => {
-    event.preventDefault(); // Prevent default behavior
-    event.stopPropagation(); // Prevents the book card click event from triggering
+    event.preventDefault(); 
+    event.stopPropagation();
     const token = Cookies.get("token");
     if (!token) {
       Navigate("/login");
@@ -120,7 +118,7 @@ export const Bookdetail = () => {
         if (!response.ok)
           throw new Error(data.message || "Failed to add to cart");
 
-        Navigate("/cart"); // Redirect to cart page on success
+        Navigate("/cart"); 
       } catch (error) {
         console.error("Error adding to cart:", error.message);
       }
@@ -128,8 +126,8 @@ export const Bookdetail = () => {
   };
 
   const buynow = async (event) => {
-    event.preventDefault(); // Prevent default behavior
-    event.stopPropagation(); // Prevents the book card click event from triggering
+    event.preventDefault(); 
+    event.stopPropagation(); 
     const token = Cookies.get("token");
     if (!token) {
       Navigate("/login");
@@ -146,7 +144,7 @@ export const Bookdetail = () => {
         if (!response.ok)
           throw new Error(data.message || "Failed to add to cart");
 
-        Navigate("/cart"); // Redirect to cart page on success
+        Navigate("/cart"); 
       } catch (error) {
         console.error("Error adding to cart:", error.message);
       }
@@ -163,7 +161,6 @@ export const Bookdetail = () => {
       .padStart(2, "0")}-${dateObj.getFullYear()}`;
   };
 
-  // Function to display stars with half-star support
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -221,7 +218,6 @@ export const Bookdetail = () => {
               />
             </div>
 
-            {/* ✅ FIXED: Average Rating Stars with Correct Half-Star Placement */}
             <div className="averagerating-container">
               {" "}
               <span className="stars-container">{renderStars(avgRating)}</span>
@@ -297,7 +293,6 @@ export const Bookdetail = () => {
                             <p>{book.Description || "No description available for this Book"}</p>
                         </div>
 
-            {/* Rating System */}
             <div className="rating-container">
               <b>Rate this book:</b>
               {[...Array(5)].map((_, index) => {

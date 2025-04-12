@@ -35,7 +35,7 @@ export const AdminOrders = () => {
           credentials: "include",
         });
         const json = await response.json();
-        setUsers(json.users); // Initialize with all users
+        setUsers(json.users); 
       } catch (error) {
         showAlert("An error occurred. Please try again later.","error");
         console.error(error);
@@ -66,7 +66,6 @@ export const AdminOrders = () => {
       })
       .filter((book) => book !== null);
 
-    console.log("Filtered Books with Quantity:", filteredBooks);
     setOrderDetails({ orderdata, userdata, bookdata: filteredBooks });
     navigate("/Admin/ViewOrder");
   };

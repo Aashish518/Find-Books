@@ -12,7 +12,6 @@ export const AdminReport = () => {
 
   const [reportData, setReportData] = useState([]);
 
-  // Sample function to fetch report data (replace with API call)
   const generateReport = () => {
     const sampleData = [
       { id: 1, title: "Book A", category: "Fiction", condition: "New", sales: 120 },

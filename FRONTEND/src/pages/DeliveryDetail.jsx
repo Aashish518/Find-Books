@@ -117,7 +117,7 @@ export const DeliveryDetail = () => {
       }
 
       showAlert("Order marked as Delivered!","success");
-      setDeliveryCompleted(true); // Hide OTP section and show confirmation
+      setDeliveryCompleted(true); 
     } catch (error) {
       showAlert("Failed to update order status. Please try again.","error");
     }

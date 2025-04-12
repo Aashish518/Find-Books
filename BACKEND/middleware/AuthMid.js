@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-//const JWT_SECRET = "FindbooksDAD";
 const JWT_SECRET = process.env.JWT_KEY;
 
 const authenticateToken = (req, res, next) => {
-    const token = req.cookies?.token; // Ensure this matches the cookie name
+    const token = req.cookies?.token;
 
     if (!token) {
         console.error("No token provided");

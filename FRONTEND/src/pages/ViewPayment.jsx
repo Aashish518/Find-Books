@@ -22,7 +22,6 @@ export const ViewPayment = () => {
         fetchPayments();
     }, []);
 
-    // Filter payments based on search query (User Name or Order ID)
     const filteredPayments = payments.filter((item) => {
         const fullName = `${item.order_id?.User_id?.First_name || ""} ${item.order_id?.User_id?.Last_name || ""}`.toLowerCase();
         const orderId = item.order_id?._id?.toLowerCase() || "";
@@ -59,7 +58,6 @@ export const ViewPayment = () => {
                         {filteredPayments.length > 0 ? (
                             filteredPayments.map((item, index) => (
                                 <tr key={item._id || index}>
-                                    {console.log("pppppp",item)}
                                     <td>
                                         {item.order_id?.User_id?.First_name || "N/A"} {" "}
                                         {item.order_id?.User_id?.Last_name || ""}

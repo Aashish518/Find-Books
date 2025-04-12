@@ -3,7 +3,7 @@ import "../pages-css/Cart.css";
 import { Navbar } from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Context/order";
-import { FaTrashAlt, FaShoppingCart, FaArrowRight, FaTimes } from "react-icons/fa";
+import { FaTrashAlt, FaArrowRight, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
 
@@ -59,14 +59,13 @@ export const Cart = () => {
                 setCarts(json.cart);
                 setBookdetail(json.books);
 
-                // Store updated quantities in state
                 const quantityMap = {};
                 json.cart.forEach((cartItem) => {
                     cartItem.books.forEach((book) => {
                         quantityMap[book.book_id] = book.book_quantity;
                     });
                 });
-                setQuantities(quantityMap); // Update state with latest values
+                setQuantities(quantityMap);
             } catch (error) {
                 console.error("Error fetching book data:", error);
             } finally {
@@ -93,7 +92,6 @@ export const Cart = () => {
             setCarts(json.cart);
             setBookdetail(json.books);
 
-            // Update quantity state from backend response
             const updatedQuantities = {};
             json.cart.books.forEach(book => {
                 updatedQuantities[book.book_id] = book.book_quantity;
@@ -132,10 +130,8 @@ export const Cart = () => {
             const cartid = carts.length > 0 ? carts[0]._id : null;
             const totalamount = getTotalPrice();
 
-            // Save cartid and totalamount in context
             setCartData({ cartid, totalamount, bookdetail });
 
-            // Navigate to the UserAddress page
             Navigate("/Useraddress");
         } catch (error) {
             showAlert("An error occurred. Please try again later.","error");

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../components-css/BookForm.css";
 
 export const BookForm = ({ UserRole }) => {
+
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
@@ -23,7 +24,6 @@ export const BookForm = ({ UserRole }) => {
     SubCategory: ""
   });
 
-  // Fetch Categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -37,11 +37,10 @@ export const BookForm = ({ UserRole }) => {
     fetchCategories();
   }, []);
 
-  // Handle category change and fetch subcategories
   const handleCategoryChange = async (e) => {
     const categoryId = e.target.value;
     setFormData((prev) => ({ ...prev, Category: categoryId, SubCategory: "" }));
-    setErrors((prevErrors) => ({ ...prevErrors, Category: "" })); // Clear errors
+    setErrors((prevErrors) => ({ ...prevErrors, Category: "" })); 
 
     try {
       const response = await fetch(`http://localhost:2606/api/${categoryId}/Subcategory`);
@@ -53,14 +52,12 @@ export const BookForm = ({ UserRole }) => {
     }
   };
 
-  // Handle text input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); // Clear errors
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); 
   };
 
-  // Handle file input changes
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -69,12 +66,10 @@ export const BookForm = ({ UserRole }) => {
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = {};
 
-    // Validation
     if (!formData.BookName.trim()) newErrors.BookName = "Book Name is required";
     if (!formData.image) newErrors.image = "Book image is required";
     if (!formData.Author.trim()) newErrors.Author = "Author is required";
@@ -90,7 +85,6 @@ export const BookForm = ({ UserRole }) => {
 
     setErrors(newErrors);
 
-    // If there are no errors, navigate to the next page with form data
     if (Object.keys(newErrors).length === 0) {
       navigate("/ResellerPaymentForm", { state: { bookData: formData, UserRole } });
     }

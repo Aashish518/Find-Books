@@ -8,7 +8,6 @@ export const AlertProvider = ({ children }) => {
   const showAlert = (message, type) => {
     setAlert({ message, type, visible: true });
 
-    // Auto-hide after 3 seconds
     setTimeout(() => {
       setAlert({ message: "", type: "", visible: false });
     }, 3000);
@@ -21,5 +20,4 @@ export const AlertProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use alert anywhere
 export const useAlert = () => useContext(AlertContext);

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
-import "../pages-css/AboutUs.css";// External CSS file
+import "../pages-css/AboutUs.css";
 
 const AboutUs = () => {
   return (

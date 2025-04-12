@@ -1,6 +1,6 @@
 import React from "react";
-import "../components-css/HomeFeature.css"; // External CSS file
-import { FaTruck, FaCreditCard, FaTag, FaSyncAlt } from "react-icons/fa"; // Using FontAwesome icons
+import "../components-css/HomeFeature.css";
+import { FaTruck, FaCreditCard, FaTag, FaSyncAlt } from "react-icons/fa";
 
 const features = [
   {

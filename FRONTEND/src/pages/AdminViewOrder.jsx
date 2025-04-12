@@ -14,12 +14,11 @@ export const AdminViewOrder = () => {
   }, [orderDetails, navigate]);
 
   if (!orderDetails) {
-    return null; // Prevents rendering anything before redirect
+    return null; 
   }
 
   const { orderdata, userdata, bookdata } = orderDetails;
 
-  // Function to format date as DD-MM-YYYY
   const formatDate = (isoDate) => {
     if (!isoDate) return "";
     const dateObj = new Date(isoDate);

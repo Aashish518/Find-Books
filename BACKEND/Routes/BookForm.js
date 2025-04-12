@@ -8,7 +8,6 @@ const Authmid = require("../middleware/AuthMid");
 
 const router = express.Router();
 
-// Multer Storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -47,16 +46,14 @@ router.post(
     }
 
     try {
-      const userRole = req.params.userRole; // Extract role from URL params
+      const userRole = req.params.userRole; 
       const isOld = userRole === "Admin" ? false : true;
 
-      // Ensure userId is present
       if (!req.userId) {
         console.error("User ID is missing in request");
         return res.status(400).json({ error: "Unauthorized request" });
       }
 
-      // Check if book already exists by ISBN
       if (userRole === "Admin") {
         let bookData = await Book.findOne({ ISBN: req.body.ISBN });
         if (bookData) {
@@ -66,7 +63,6 @@ router.post(
         }
       }
 
-      // Validate Subcategory
       if (!req.body.SubCategory) {
         return res.status(400).json({ error: "SubCategory is required" });
       }
@@ -76,10 +72,8 @@ router.post(
         return res.status(400).json({ error: "Invalid subcategory" });
       }
 
-      // Handle book image
       const bookImageURL = req.file ? req.file.path : "default.jpg";
 
-      // Create book
       const book = new Book({
         BookName: req.body.BookName,
         BookImageURL: bookImageURL,
@@ -118,11 +112,10 @@ router.get("/Book", async (req, res) => {
   }
 });
 
-// Update Book
 router.put(
   "/Book",
   Authmid,
-  upload.single("image"), // Allow updating book image
+  upload.single("image"), 
   [
     body("bookId").notEmpty().withMessage("Book ID is required"),
     body("BookName").optional().notEmpty().withMessage("Book name cannot be empty"),
@@ -145,18 +138,15 @@ router.put(
     try {
       const { bookId, ...updatedFields } = req.body;
 
-      // Check if the book exists
       let book = await Book.findById(bookId);
       if (!book) {
         return res.status(404).json({ error: "Book not found" });
       }
 
-      // If a new image is uploaded, update the image URL
       if (req.file) {
         updatedFields.BookImageURL = req.file.path;
       }
 
-      // If subcategory is updated, validate it
       if (updatedFields.SubCategory) {
         const subcategory = await Subcategory.findById(updatedFields.SubCategory);
         if (!subcategory) {
@@ -165,7 +155,6 @@ router.put(
         updatedFields.Subcategory_id = subcategory._id;
       }
 
-      // Update book details
       book = await Book.findByIdAndUpdate(bookId, updatedFields, { new: true });
 
       res.json({ success: true, message: "Book updated successfully", book });
@@ -176,7 +165,6 @@ router.put(
   }
 );
 
-// Delete Book
 router.delete(
   "/Book",
   [body("bookId").notEmpty().withMessage("Book ID is required")],
@@ -190,7 +178,6 @@ router.delete(
     try {
       const { bookId } = req.body;
 
-      // Find and delete the book
       const book = await Book.findByIdAndDelete(bookId);
       if (!book) {
         return res.status(404).json({ error: "Book not found" });

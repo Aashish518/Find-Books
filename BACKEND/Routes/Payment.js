@@ -10,7 +10,6 @@ const Book = require("../Schema/Book");
 const Reseller = require("../Schema/Reseller");
 const authenticateToken = require("../middleware/AuthMid");
 
-// Valid order statuses
 const VALID_ORDER_STATUSES = ["Pending", "Shipped", "Delivered", "Cancelled"];
 
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
@@ -23,7 +22,6 @@ const instance = new Razorpay({
 
 router.post("/orders", async (req, res) => {
     try {
-        console.log("RP"+ req.body.amount);
         const options = {
             amount: req.body.amount * 100,
             currency: "INR",
@@ -32,13 +30,12 @@ router.post("/orders", async (req, res) => {
 
         instance.orders.create(options, (error, order) => {
             if (error) {
-                console.log(error);
                 return res.status(500).json({ message: "Something Went Wrong!" });
             }
             res.status(200).json({
                 data: {
                     ...order,
-                    key: RAZORPAY_KEY_ID // This is crucial
+                    key: RAZORPAY_KEY_ID 
                 }
             });
         });
@@ -58,8 +55,6 @@ router.post("/verify", authenticateToken, async (req, res) => {
             .createHmac("sha256", RAZORPAY_SECRET)
             .update(sign.toString())
             .digest("hex");
-        console.log(razorpay_signature)
-        console.log(resultSign)
 
         if (razorpay_signature === resultSign) {
             const payment = new Payment({
@@ -87,14 +82,13 @@ router.post("/verify", authenticateToken, async (req, res) => {
 
 router.get("/verify", authenticateToken, async (req, res) => {
     try {
-        // Fetch all payments, populate order details, and then populate user details
         const payments = await Payment.find({})
             .populate({
                 path: "order_id",
                 populate: {
-                    path: "User_id",  // Ensure it matches the field in OrderSchema
-                    model: "User",   // Explicitly mention the User model
-                    select: "First_name Last_name", // Fetch only necessary fields
+                    path: "User_id",  
+                    model: "User",   
+                    select: "First_name Last_name",
                 },
             });
 
@@ -116,13 +110,11 @@ router.put('/addorder', authenticateToken, async (req, res) => {
         const { cartid, TotalAmount, status } = req.body;
 
         let cart = await Cart.findOne({_id: cartid.cartid });
-        console.log('cartId', cart);
         if (!cart) {
             return res.status(404).json({ message: "Cart not found" });
         }
 
         let order = await Order.findOne({ Cart_id: cartid.cartid });
-        console.log('order s', order);
         if (!order) {
             return res.status(404).json({ message: "Order not found for this cart" });
         }
@@ -132,29 +124,23 @@ router.put('/addorder', authenticateToken, async (req, res) => {
             book_quantity: item.book_quantity,
         }));
 
-        // If status is provided and valid, update it
         if (status && VALID_ORDER_STATUSES.includes(status)) {
             order.Order_Status = status;
         }
         
         order.Total_Amount = TotalAmount;
         order.books = updatedBooks;
-        console.log('order after', order);
         await order.save();
 
-        const bookIds = order.books.map(item => item.book_id); // Extract book IDs
-        console.log("boookboook", bookIds)
-        // Fetch resellers who have matching book IDs
+        const bookIds = order.books.map(item => item.book_id); 
         
         let resellers = await Reseller.find({
-            Book_id: { $in: bookIds }  // Ensure field name matches schema
+            Book_id: { $in: bookIds }  
         });
-        console.log("reeeseeeler", resellers)
 
-        // If matching resellers are found, update their status
         for (let reseller of resellers) {
-            reseller.Resell_Status = "Sell";  // Correct assignment
-            await reseller.save();  // Save each document individually
+            reseller.Resell_Status = "Sell";  
+            await reseller.save();  
         }
         
 
@@ -165,7 +151,6 @@ router.put('/addorder', authenticateToken, async (req, res) => {
     }
 });
 
-// Add a new route for updating order status
 router.put('/:orderId/status', authenticateToken, [
     body('status')
         .isIn(VALID_ORDER_STATUSES)

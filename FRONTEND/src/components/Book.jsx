@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { HomeFeatures } from "./HomeFeature";
 
 export const Book = () => {
+
   const [bookdata, setBookdata] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,9 +16,6 @@ export const Book = () => {
   const [newArrivals, setNewArrivals] = useState([]);
   const [comics, setComics] = useState([]);
   const [schoolBooks, setSchoolBooks] = useState([]);
-  const [examBooks, setExamBooks] = useState([]);
-  const [literature, setLiterature] = useState([]);
-  const [religiousBooks, setReligiousBooks] = useState([]);
   const [resellBooks, setResellBooks] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -47,7 +45,7 @@ export const Book = () => {
 
   const prevSlide = () => {
     setIsTransitioning(true);
-    setCurrentImageIndex((prevIndex) => 
+    setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
     setTimeout(() => setIsTransitioning(false), 500);
@@ -65,32 +63,31 @@ export const Book = () => {
         fetch("http://localhost:2606/api/Book"),
         fetch("http://localhost:2606/api/resellerbook")
       ]);
-  
+
       const [bookData, sellOrderData] = await Promise.all([
         bookRes.json(),
         sellOrderRes.json()
       ]);
-  
+
       if (!Array.isArray(bookData) || !sellOrderData?.resellers) {
         console.warn("Expected an array but got:", bookData, sellOrderData);
         setBookdata([]);
         setLoading(false);
         return;
       }
-  
-      // Store all books without filtering
+
       setBookdata(bookData);
-  
+
       const tenDaysAgo = new Date();
       tenDaysAgo.setDate(tenDaysAgo.getDate() - 45);
-  
+
       setNewArrivals(
         bookData.filter(
           (book) =>
             new Date(book.Publication_Date) > tenDaysAgo && !book.Isoldbook
         )
       );
-  
+
       setComics(
         bookData.filter(
           (book) =>
@@ -99,7 +96,7 @@ export const Book = () => {
             !book.Isoldbook
         )
       );
-  
+
       setSchoolBooks(
         bookData.filter(
           (book) =>
@@ -108,7 +105,7 @@ export const Book = () => {
             !book.Isoldbook
         )
       );
-  
+
       // Extract hidden book IDs from resellers with status "Sell", "Collected", or "Delivered"
       const hiddenBookIds = new Set(
         sellOrderData.resellers
@@ -117,9 +114,9 @@ export const Book = () => {
           )
           .map(reseller => reseller.Book_id)
       );
-  
+
       setResellBooks(bookData.filter(book => book.Isoldbook && !hiddenBookIds.has(book._id)));
-  
+
       setLoading(false);
     } catch (error) {
       console.error("Fetch Error:", error);
@@ -127,8 +124,8 @@ export const Book = () => {
       setError(error);
     }
   };
-  
-  
+
+
 
   useEffect(() => {
     fetchBook();
@@ -233,7 +230,7 @@ export const Book = () => {
             </>
           )}
 
-          <HomeFeatures/><br/>
+          <HomeFeatures /><br />
 
           {resellBooks.length > 0 && (
             <>

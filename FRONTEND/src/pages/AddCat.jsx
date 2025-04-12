@@ -83,7 +83,6 @@ export const AddCat = () => {
         <button type="submit" className="addcat">Add Category</button>
       </form>
 
-      {/* Add Subcategory Form */}
       <form onSubmit={handleAddSubcategory} className="subcategory-form">
         <h3>Add Subcategory</h3>
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} required>

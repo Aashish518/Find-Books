@@ -1,7 +1,7 @@
 const express = require("express");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
-const User = require("../Schema/User"); // Adjust the path to your User model
+const User = require("../Schema/User");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Authmid = require("../middleware/AuthMid");
@@ -10,7 +10,6 @@ const nodemailer = require("nodemailer");
 const Otp = require('../Schema/otp');
 
 
-//const JsonSecretKey = "FindbooksDAD";
 const JsonSecretKey = process.env.JWT_KEY;
 
 const transporter = nodemailer.createTransport({
@@ -24,11 +23,10 @@ router.post("/forgot-password", async (req, res) => {
 
   if (!user) return res.status(400).json({ message: "User not found" });
 
-  const otp = crypto.randomInt(100000, 999999); // Generate 6-digit OTP
+  const otp = crypto.randomInt(100000, 999999);
   user.otp = otp;
   await user.save();
 
-  // Send email
    await transporter.sendMail({
      to: email,
      subject: "Password Reset OTP",
@@ -38,7 +36,6 @@ router.post("/forgot-password", async (req, res) => {
   res.json({ message: "OTP sent to email" });
 });
 
-// Step 2: Verify OTP
 router.post("/verify-otp", async (req, res) => {
   const { email, otp } = req.body;
   const user = await User.findOne({ Email:email });
@@ -53,7 +50,6 @@ router.post("/verify-otp", async (req, res) => {
   res.json({ message: "OTP verified. You can now reset your password" });
 });
 
-// Step 3: Reset Password
 router.post("/reset-password", async (req, res) => {
   const { email, newPassword } = req.body;
   const user = await User.findOne({ Email:email });
@@ -76,19 +72,16 @@ router.post('/verifyotp', async (req, res) => {
   }
 
   try {
-    // Find the OTP record (case-insensitive)
     const otpRecord = await Otp.findOne({ email: email.toLowerCase() });
 
     if (!otpRecord) {
       return res.status(400).json({ message: 'OTP not found or expired' });
     }
 
-    // Check if OTP is correct
     if (otpRecord.otp !== otp) {
       return res.status(400).json({ message: 'Invalid OTP' });
     }
 
-    // OTP is correct, delete the record to prevent reuse
     await Otp.deleteOne({ email });
 
     res.json({ message: 'OTP verified successfully' });
@@ -110,7 +103,6 @@ router.post('/registerotp', async (req, res) => {
   const OTP = crypto.randomInt(100000, 999999).toString();
 
   try {
-    // Check if OTP already exists for the email
     const existingOtp = await Otp.findOne({ email });
 
     if (existingOtp) {
@@ -142,11 +134,9 @@ router.post('/registerotp', async (req, res) => {
 
 
 
-// Registration route
 router.post(
   "/User",
   [
-    // Validate fields
     body("firstName").notEmpty().withMessage("First name is required"),
     body("lastName").notEmpty().withMessage("Last name is required"),
     body("email").isEmail().withMessage("Please provide a valid email"),
@@ -159,14 +149,12 @@ router.post(
     body("role")
   ],
   async (req, res) => {
-    // Validate incoming data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     try {
-      // Check if the user already exists
       let user = await User.findOne({ Email: req.body.email });
       if (user) {
         return res
@@ -176,10 +164,8 @@ router.post(
 
       
 
-      // Hash the password
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-      // Create and save the user
       const newUser = new User({
         First_name: req.body.firstName,
         Last_name: req.body.lastName,
@@ -192,7 +178,6 @@ router.post(
       const savedUser = await newUser.save();
 
       const data = {
-        //for generate token threw id
         User: {
           id: newUser.id,
         },
@@ -200,7 +185,6 @@ router.post(
       const authtoken = jwt.sign(data, JsonSecretKey);
 
 
-      // Respond with success
       res.status(201).json({ user: savedUser, authtoken });
     } catch (err) {
       console.error(err);
@@ -220,7 +204,6 @@ router.post(
   async (req, res) => {
     let success = false;
 
-    // Validate incoming data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -229,27 +212,22 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      // Find the user
       let user = await User.findOne({ Email: email });
       if (!user) {
         return res.status(400).json({ success, error: "User does not exist" });
       }
 
-      // Compare passwords
       const comparePass = await bcrypt.compare(password, user.Password);
       if (!comparePass) {
         return res.status(400).json({ success, error: "Invalid credentials" });
       }
 
-      // Generate JWT token
       const data = {
         User: { id: user.id },
       };
       const authtoken = jwt.sign(data, JsonSecretKey);
       success = true;
 
-      // Respond with the token
-      console.log("token: ",authtoken);
       res.json({ success, authtoken, user });
     } catch (error) {
       console.error(error.message);
@@ -292,7 +270,6 @@ router.delete(
   ],
   Authmid,
   async (req, res) => {
-    // Validate request data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -301,7 +278,6 @@ router.delete(
     const { userId } = req.body;
 
     try {
-      // Find and delete the user
       const user = await User.findByIdAndDelete(userId);
       if (!user) {
         return res.status(404).json({ error: "User not found" });
@@ -329,7 +305,6 @@ router.put(
   ],
   Authmid,
   async (req, res) => {
-    // Validate request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -338,30 +313,24 @@ router.put(
     const { userId, firstname, lastname, email, mobile, password, role } = req.body;
 
     try {
-      // Find user by ID
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ error: "No user found" });
       }
 
-      // Prepare update object
       let updatedData = {};
       if (firstname) updatedData.First_name = firstname;
       if (lastname) updatedData.Last_name = lastname;
       if (email) updatedData.Email = email;
       if (mobile) updatedData.Phone_no = mobile;
       if (password) {
-        console.log("Hashing password for user:", userId);
         updatedData.Password = await bcrypt.hash(password, 10);
       }
       if (role) {
         updatedData.Role = role;
       }
 
-      // Debugging log
-      console.log("Updating user with data:", updatedData);
 
-      // Update user
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
         { $set: updatedData },

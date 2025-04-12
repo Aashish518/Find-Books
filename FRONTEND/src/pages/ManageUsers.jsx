@@ -20,7 +20,7 @@ export const ManageUsers = () => {
         });
         const json = await response.json();
         setUsers(json.users);
-        setFilteredUsers(json.users); // Initialize with all users
+        setFilteredUsers(json.users);
       } catch (error) {
         showAlert("An error occurred. Please try again later.","error");
         console.error(error);

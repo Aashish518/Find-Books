@@ -52,7 +52,6 @@ export const MyOrders = () => {
         throw new Error("Failed to update order status");
       }
 
-      // Update local state only after successful API call
       setOrder((prevOrders) =>
         prevOrders.map((order) =>
           order._id === orderId ? { ...order, Order_Status: newStatus } : order

@@ -38,13 +38,11 @@ export const AdminEditBook = () => {
       let headers = {};
   
       if (formData.image && typeof formData.image === "object") {
-        // If an image is selected, use FormData
         body = new FormData();
         Object.entries({ ...formData, bookId: product._id }).forEach(([key, value]) =>
           body.append(key, value)
         );
       } else {
-        // Otherwise, send JSON
         body = JSON.stringify({ ...formData, bookId: product._id });
         headers["Content-Type"] = "application/json";
       }
@@ -124,7 +122,7 @@ export const AdminEditBook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await editbook(); // Call the update function
+    await editbook();
   };
 
   const handleCategoryChange = (e) => {

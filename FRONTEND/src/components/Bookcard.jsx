@@ -10,7 +10,7 @@ export const Bookcard = ({ book }) => {
     };
 
     const handleAddToCart = async (event) => {
-        event.stopPropagation(); // Prevents the book card click event from triggering
+        event.stopPropagation();
         const token = Cookies.get('token');
         if(!token){
             navigate("/login");
@@ -28,7 +28,7 @@ export const Bookcard = ({ book }) => {
 
                 if (!response.ok) throw new Error(data.message || "Failed to add to cart");
 
-                navigate("/cart"); // Redirect to cart page on success
+                navigate("/cart");
             } catch (error) {
                 console.error("Error adding to cart:", error.message);
             }

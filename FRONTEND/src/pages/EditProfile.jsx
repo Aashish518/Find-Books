@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../pages-css/EditProfile.css"; // Import external CSS
+import "../pages-css/EditProfile.css"; 
 import { useAlert } from "../Context/AlertContext";
 
 export const EditProfile = () => {
   const location = useLocation();
-  const userData = location.state?.user; // Get passed user data
+  const userData = location.state?.user; 
   const navigate = useNavigate();
 
   const { showAlert } = useAlert();
 
-  // Initialize form data with received user details
   const [formData, setFormData] = useState({
     name: userData ? `${userData.First_name} ${userData.Last_name}` : "",
     email: userData ? userData.Email : "",
@@ -29,7 +28,7 @@ export const EditProfile = () => {
       return;
     }
 
-    const [firstName, lastName] = formData.name.split(" "); // Split name into first and last
+    const [firstName, lastName] = formData.name.split(" "); 
 
     try {
       const response = await fetch("http://localhost:2606/api/User", {
@@ -37,18 +36,16 @@ export const EditProfile = () => {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
-          userId: userData._id, // Use correct ID from userData
-          firstname: firstName || "", // Ensure non-empty values
+          userId: userData._id, 
+          firstname: firstName || "", 
           lastname: lastName || "",
           email: formData.email,
           mobile: formData.mobile,
         }),
       });
 
-      console.log("Response status:", response.status);
 
       const result = await response.json();
-      console.log("API Response:", result);
 
       if (response.ok) {
         showAlert("Profile updated successfully!","success");

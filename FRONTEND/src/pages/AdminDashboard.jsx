@@ -49,7 +49,7 @@ const AdminDashboard = () => {
   });
   const { setOrderDetails } = useViewOrder();
   const navigate = useNavigate();
-  const {showAlert} = useAlert();
+  const { showAlert } = useAlert();
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -66,9 +66,9 @@ const AdminDashboard = () => {
         const json = await response.json();
         getUser(json.user);
       } catch (error) {
-        showAlert("An error occurred. Please try again later.","error");
+        showAlert("An error occurred. Please try again later.", "error");
         console.error(error);
-      }finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -80,10 +80,9 @@ const AdminDashboard = () => {
           credentials: "include",
         });
         const json = await response.json();
-        console.log("Fetched Orders:", json.orders);
         setOrders(json.orders);
       } catch (error) {
-        showAlert("An error occurred. Please try again later.","error");
+        showAlert("An error occurred. Please try again later.", "error");
         console.error(error);
       }
     };
@@ -98,7 +97,7 @@ const AdminDashboard = () => {
         const json = await response.json();
         setUsers(json.users);
       } catch (error) {
-        showAlert("An error occurred. Please try again later.","error");
+        showAlert("An error occurred. Please try again later.", "error");
         console.error(error);
       }
     };
@@ -111,7 +110,7 @@ const AdminDashboard = () => {
         const data = await res.json();
         setBookdata(data);
       } catch (error) {
-        showAlert("An error occurred. Please try again later.","error");
+        showAlert("An error occurred. Please try again later.", "error");
         console.error(error);
       }
     };
@@ -120,33 +119,32 @@ const AdminDashboard = () => {
   }, []);
 
   useEffect(() => {
-const getRevenue = async () => {
-  try {
-    const res = await fetch("http://localhost:2606/api/verify", {
-      credentials: "include",
-    });
-    const data = await res.json();
+    const getRevenue = async () => {
+      try {
+        const res = await fetch("http://localhost:2606/api/verify", {
+          credentials: "include",
+        });
+        const data = await res.json();
 
-    const totalRevenue = (data.payment || []).reduce((acc, pdata) => {
-      const transactionType = pdata.transaction_Type?.toLowerCase();
-      const paymentStatus = pdata.payment_status?.toLowerCase();
-      const amount = pdata.total_payment || 0;
+        const totalRevenue = (data.payments || []).reduce((acc, pdata) => {
+          const transactionType = pdata.transaction_Type?.toLowerCase();
+          const paymentStatus = pdata.payment_status?.toLowerCase();
+          const amount = pdata.total_payment || 0;
+          if (paymentStatus === "completed") {
+            if (transactionType === "credit") {
+              return acc + amount;
+            } else if (transactionType === "debit") {
+              return acc - amount;
+            }
+          }
+          return acc;
+        }, 0);
 
-      if (paymentStatus === "completed") {
-        if (transactionType === "credit") {
-          return acc + amount;
-        } else if (transactionType === "debit") {
-          return acc - amount;
-        }
+        setRevenue(totalRevenue);
+      } catch (error) {
+        console.error("Error fetching revenue data:", error);
       }
-      return acc;
-    }, 0);
-
-    setRevenue(totalRevenue);
-  } catch (error) {
-    console.error("Error fetching revenue data:", error);
-  }
-};
+    };
 
     getRevenue();
   }, []);
@@ -163,7 +161,7 @@ const getRevenue = async () => {
       if (!result.isConfirmed) {
         return;
       }
-  
+
       try {
         const response = await fetch(
           `http://localhost:2606/api/${orderId}/Order`,
@@ -176,17 +174,17 @@ const getRevenue = async () => {
             body: JSON.stringify({ status: newStatus }),
           }
         );
-  
+
         const data = await response.json();
         if (data.notCollectedBooks) {
           showAlert(
-            "Attention: The following book(s) in your order have not yet been collected: \n\n" + 
-            data.notCollectedBooks.join(",\n ") + 
+            "Attention: The following book(s) in your order have not yet been collected: \n\n" +
+            data.notCollectedBooks.join(",\n ") +
             "\n\n Please collect these book(s) to complete your order.",
             "error"
           );
         }
-  
+
         if (data.order) {
           setOrders((prevOrders) =>
             prevOrders.map((order) =>
@@ -236,11 +234,11 @@ const getRevenue = async () => {
       if (data.success) {
         setReport(data.data);
       } else {
-        showAlert('Failed to generate report',"error");
+        showAlert('Failed to generate report', "error");
       }
     } catch (error) {
       console.error('Error generating report:', error);
-      showAlert('Error generating report',"error");
+      showAlert('Error generating report', "error");
     } finally {
       setLoading(false);
     }
@@ -250,14 +248,12 @@ const getRevenue = async () => {
     if (!report) return;
 
     const doc = new jsPDF();
-    
-    // Add title
+
     doc.setFontSize(20);
     doc.text('Sales Report', 14, 15);
     doc.setFontSize(12);
     doc.text(`Period: ${new Date(report.period.start).toLocaleDateString()} - ${new Date(report.period.end).toLocaleDateString()}`, 14, 25);
 
-    // Summary section
     doc.setFontSize(16);
     doc.text('Summary', 14, 35);
     doc.setFontSize(12);
@@ -275,7 +271,6 @@ const getRevenue = async () => {
       theme: 'grid'
     });
 
-    // Payment Methods
     doc.setFontSize(16);
     doc.text('Payment Methods', 14, doc.lastAutoTable.finalY + 10);
     doc.setFontSize(12);
@@ -284,13 +279,12 @@ const getRevenue = async () => {
       ['Cash on Delivery', report.summary.paymentMethods?.cod || 0]
     ];
     autoTable(doc, {
-      startY: doc.lastAutoTable.finalY + 15, 
+      startY: doc.lastAutoTable.finalY + 15,
       head: [['Method', 'Count']],
       body: paymentData,
       theme: 'grid'
     });
 
-    // Order Status
     doc.setFontSize(16);
     doc.text('Order Status', 14, doc.lastAutoTable.finalY + 10);
     doc.setFontSize(12);
@@ -302,7 +296,6 @@ const getRevenue = async () => {
       theme: 'grid'
     });
 
-    // Top Books
     doc.setFontSize(16);
     doc.text('Top Selling Books', 14, doc.lastAutoTable.finalY + 10);
     doc.setFontSize(12);
@@ -318,9 +311,8 @@ const getRevenue = async () => {
       body: bookData,
       theme: 'grid'
     });
-    
 
-    // Save the PDF
+
     doc.save('sales-report.pdf');
   };
 
@@ -395,7 +387,7 @@ const getRevenue = async () => {
                     onChange={(e) => setDateRange({ ...dateRange, endDate: e.target.value })}
                   />
                 </div>
-                <button 
+                <button
                   className="generate-btn"
                   onClick={generateReport}
                   disabled={loading || !dateRange.startDate || !dateRange.endDate}
@@ -547,10 +539,9 @@ const getRevenue = async () => {
                 </thead>
                 <tbody>
                   {orders.slice()
-                .reverse()
+                    .reverse()
                     .filter((order) => {
                       return (
-                        // order.Order_Status === "Shipped" ||
                         order.Order_Status === "Pending"
                       );
                     })
@@ -574,26 +565,26 @@ const getRevenue = async () => {
                               View
                             </button>
                           </td>
-                           <td>
-                    {["Delivered", "Cancelled"].includes(order.Order_Status) ? (
-                      <button className="action-btn" disabled>
-                        {order.Order_Status}
-                      </button>
-                    ) : (
-                      <button
-                        className="action-btn"
-                        onClick={() =>
-                          updateOrderStatus(
-                            order._id,
-                            order.Order_Status === "Shipped" ? "Pending" : "Shipped"
-                          )
-                        }
-                      >
-                        {order.Order_Status === "Shipped" ? "Pending" : "Shipped"}
-                      </button>
-                    )}
+                          <td>
+                            {["Delivered", "Cancelled"].includes(order.Order_Status) ? (
+                              <button className="action-btn" disabled>
+                                {order.Order_Status}
+                              </button>
+                            ) : (
+                              <button
+                                className="action-btn"
+                                onClick={() =>
+                                  updateOrderStatus(
+                                    order._id,
+                                    order.Order_Status === "Shipped" ? "Pending" : "Shipped"
+                                  )
+                                }
+                              >
+                                {order.Order_Status === "Shipped" ? "Pending" : "Shipped"}
+                              </button>
+                            )}
 
-                  </td>
+                          </td>
                         </tr>
                       );
                     })}

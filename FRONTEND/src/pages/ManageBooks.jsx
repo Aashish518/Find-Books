@@ -15,11 +15,9 @@ export const ManageBooks = () => {
     try {
       const res = await fetch("http://localhost:2606/api/Book");
       const data = await res.json();
-      // console.log(data)
       setBookdata(data);
     } catch (error) {
       console.error(error);
-      //setError(error);
     }
   };
 
@@ -89,8 +87,6 @@ export const ManageBooks = () => {
             <input
               type="text"
               placeholder="Search products..."
-              // value={search}
-              // onChange={handleSearch}
               className="search-input centered"
             />
             <button className="add-product centered" onClick={redirectBook}>

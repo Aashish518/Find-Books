@@ -3,9 +3,9 @@ import "../components-css/Alert.css";
 import { useAlert } from "../Context/AlertContext";
 
 export const Alert = () => {
-  const { alert, setAlert } = useAlert(); // Get alert state from context
+  const { alert, setAlert } = useAlert();
 
-  if (!alert.visible) return null; // Don't render if not visible
+  if (!alert.visible) return null;
 
   return (
     <div className="alert-container">

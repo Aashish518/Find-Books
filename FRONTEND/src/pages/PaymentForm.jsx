@@ -60,11 +60,6 @@ export const PaymentForm = () => {
       }
     }
 
-    console.log("Payment Details:", {
-      paymentMethod,
-      onlinePaymentMethod,
-      ...formData,
-    });
     showAlert("Payment Successful!","error");
   };
 
@@ -76,7 +71,6 @@ export const PaymentForm = () => {
     <form onSubmit={handleSubmit} className="payment-form">
       <h2>Payment Details</h2>
 
-      {/* Payment Method Selection */}
       <div className="form-group">
         <label>Payment Method:</label>
         <div className="payment-options">
@@ -103,7 +97,6 @@ export const PaymentForm = () => {
         </div>
       </div>
 
-      {/* Online Payment Options */}
       {paymentMethod === "online" && (
         <div className="form-group">
           <label>Choose Online Payment Method:</label>
@@ -120,7 +113,6 @@ export const PaymentForm = () => {
         </div>
       )}
 
-      {/* UPI Payment */}
       {paymentMethod === "online" && onlinePaymentMethod === "upi" && (
         <div className="form-group">
           <label htmlFor="upiId">Enter UPI ID:</label>
@@ -137,7 +129,6 @@ export const PaymentForm = () => {
         </div>
       )}
 
-      {/* QR Code Scanner */}
       {paymentMethod === "online" && onlinePaymentMethod === "qr" && (
         <div className="form-group">
           <label>Scan the QR Code:</label>
@@ -152,7 +143,6 @@ export const PaymentForm = () => {
         </div>
       )}
 
-      {/* Bank Transfer */}
       {paymentMethod === "online" && onlinePaymentMethod === "bank" && (
         <>
           <div className="form-group">

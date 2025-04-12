@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import '../pages-css/ContactUsPage.css'; // Import the CSS file
+import '../pages-css/ContactUsPage.css';
 
 const ContactUsPage = () => {
     return (

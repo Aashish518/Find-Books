@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../pages-css/DeliveryDashboard.css";
 import { useNavigate } from "react-router-dom";
-import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { useAuth } from "../Context/AdminContext";
 import Load from "../components/Load";
-import { Navigate } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
 
 const DeliverypersonRoute = ({ children }) => {
@@ -37,7 +35,6 @@ const DeliveryDashboard = () => {
 
   const { showAlert } = useAlert();
 
-  console.log(reseller, "mnmmnmn");
   const navigate = useNavigate();
 
   const updateStatus = (order) => {

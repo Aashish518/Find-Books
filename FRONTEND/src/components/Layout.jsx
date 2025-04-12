@@ -6,7 +6,6 @@ const Layout = ({ children }) => {
         <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Navbar />
             <main style={{ flex: 1, overflow: 'hidden', backgroundColor: '##e1e1e1', paddingTop: "7em" }}>{children}</main>
-            {/* <Footer /> */}
         </div>
     );
 };

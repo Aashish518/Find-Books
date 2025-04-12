@@ -19,10 +19,7 @@ router.post(
     body("country").notEmpty().withMessage("Please enter country"),
     body("pincode").notEmpty().withMessage("Please enter pincode"),
     body("cartid").notEmpty().withMessage("Cart ID is required"),
-    // body("totalamount")
-    //   .notEmpty()
-    //   .isNumeric()
-    //   .withMessage("Total amount is required and must be numeric"),
+
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -34,11 +31,10 @@ router.post(
     try {
       const addressString =`${ req.body.address }, ${ req.body.city }, ${ req.body.state }, ${ req.body.country } - ${ req.body.pincode }`;
       const order = new Order({
-        books: req.body.books || [], // Ensure books are included from the request body
+        books: req.body.books || [], 
 
 
         Address: addressString,
-        // Total_Amount: req.body.totalamount,
         User_id: req.userId,
         Cart_id: req.body.cartid,
       });
@@ -55,35 +51,27 @@ router.post(
 
 router.get("/Order", Authmid, async (req, res) => {
   try {
-    // Find orders associated with the user
     const orders = await Order.find({ User_id: req.userId });
 
     if (!orders || orders.length === 0) {
       return res.status(404).json({ error: "No orders found for this user" });
     }
 
-    // Extract book IDs from orders
     const bookIds = orders.flatMap((c) => c.books.map((b) => b.book_id));
-    console.log("Book IDs:", bookIds);
     if (bookIds.length === 0) {
       return res.json({ orders, books: [] });
     }
 
-    // Fetch book details
-    // Fetch all books once
     const bookDocs = await Book.find({ _id: { $in: bookIds } });
 
-    // Create a map of book documents for quick lookup
     const bookMap = new Map(
       bookDocs.map((book) => [book._id.toString(), book])
     );
 
-    // Reconstruct the books array with duplicates based on bookIds
     const books = bookIds
       .map((id) => bookMap.get(id.toString()))
       .filter(Boolean);
 
-    console.log("Books found:", books);
 
     res.json({ orders, books });
   } catch (error) {
@@ -114,7 +102,6 @@ router.get("/Orders", Authmid,async (req, res) => {
 
 router.get("/CurrentOrder", Authmid, async (req, res) => {
   try {
-    // Get the latest order for the user
     const order = await Order.findOne({ User_id: req.userId }).sort({ createdAt: -1 });
 
     if (!order) {

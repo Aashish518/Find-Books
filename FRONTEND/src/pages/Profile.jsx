@@ -13,10 +13,8 @@ export const Profile = () => {
     const [loading, setLoading] = useState(true);
     const defaultImage = "/src/images/profile.png"; 
 
-    // ✅ Profile Image State
     const [image, setImage] = useState(defaultImage);
 
-    // 🟢 Fetch User Profile Data
     useEffect(() => {
         const fetchProfile = async () => {
             try {
@@ -25,7 +23,6 @@ export const Profile = () => {
                 });
                 const json = await response.json();
 
-                console.log("Profile API Response:", json);
 
                 if (!json.user) {
                     console.warn("No user data received. Displaying guest mode.");
@@ -34,7 +31,6 @@ export const Profile = () => {
                 } else {
                     setUser(json.user);
 
-                    // 🔄 Retrieve Base64 image from localStorage
                     const storedImage = localStorage.getItem(`profileImage_${json.user.Email}`);
                     setImage(storedImage || defaultImage);
                 }
@@ -48,29 +44,26 @@ export const Profile = () => {
         fetchProfile();
     }, []);
 
-    // 🔵 Handle Profile Image Change (Store in Base64 format)
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        if (file && user) { // Ensure user exists
+        if (file && user) { 
             const reader = new FileReader();
             reader.onloadend = () => {
                 const base64String = reader.result;
-                localStorage.setItem(`profileImage_${user.Email}`, base64String); // Store image per user
+                localStorage.setItem(`profileImage_${user.Email}`, base64String);
                 setImage(base64String);
             };
-            reader.readAsDataURL(file); // Convert file to Base64
+            reader.readAsDataURL(file);
         }
     };
 
-    // 🔴 Handle Logout
     const handleLogout = () => {
         Cookies.remove("token");
         setUser(null);
-        setImage(defaultImage); // Reset to default image
+        setImage(defaultImage); 
         navigate("/");
     };
 
-    // ⏳ Show Loading Spinner While Fetching Data
     if (loading) {
         return (
             <>
@@ -99,7 +92,6 @@ export const Profile = () => {
                     </header>
 
                     <section className="profile-details">
-                        {/* Profile Image Section */}
                         <div className="profile-image-section">
                             <div className="profile-image-container">
                                 <img
@@ -107,7 +99,7 @@ export const Profile = () => {
                                     alt="Profile"
                                     className="profile-image"
                                 />
-                                {user && ( // Only allow image change if logged in
+                                {user && ( 
                                     <label className="upload-button" title="Change profile picture">
                                         <Plus size={16} />
                                         <input
@@ -128,7 +120,6 @@ export const Profile = () => {
                             </p>
                         </div>
 
-                        {/* Personal Info Section */}
                         <div className="profile-info">
                             <div className="info-section">
                                 <h3>Personal Information</h3>
@@ -170,7 +161,6 @@ export const Profile = () => {
                         </div>
                     </section>
 
-                    {/* Action Buttons */}
                     <div className="profile-actions">
                         {user ? (
                             <>

@@ -1,10 +1,8 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// Import the ViewOrderProvider
 import { Index } from "./pages/Index";
 import { Cart } from "./pages/Cart";
 import { Profile } from "./pages/Profile";
-import { Category } from "./pages/Category";
 import { Bookdetail } from "./pages/Bookdetail";
 import { ResellerPaymentForm } from './pages/ResellerPaymentForm';
 import { BookForm } from './components/BookForm';
@@ -47,7 +45,6 @@ export const App = () => {
         { path: "/", element: <Index /> },
         { path: "/cart", element: <Cart /> },
         { path: "/profile", element: <Profile /> },
-       // { path: "/category", element: <Category /> },
         { path: "/bookdetail", element: <Bookdetail /> },
         { path: "/bookform", element:  <BookForm UserRole='Reseller'/>},
         { path: "/Resellerpaymentform", element: <ResellerPaymentForm /> },

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../pages-css/AdminAddUser.css"; // External CSS
+import "../pages-css/AdminAddUser.css"; 
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
 
@@ -22,7 +22,6 @@ export const AdminAddUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("User Data Submitted:", user);
 
     try {
       const response = await fetch("http://localhost:2606/api/User", {

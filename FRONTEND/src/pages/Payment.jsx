@@ -95,9 +95,8 @@ export const Payment = () => {
   const { total, address, cartDatas } = location.state || {};
 
   const initPayment = async (data) => {
-    console.log("datadaat", data);
     const options = {
-      key: data.key, // Use the key from the backend response
+      key: data.key, 
       amount: data.amount,
       currency: data.currency,
       name: "Find Books",
@@ -105,7 +104,6 @@ export const Payment = () => {
       image: "https://example.com/your_logo",
       order_id: data.id,
       handler: async (response) => {
-        console.log("rrrrrrrrrrrrrrrrrrrrrrr", response);
         try {
           const verifyResponse = await fetch(
             "http://localhost:2606/api/verify",
@@ -159,9 +157,8 @@ export const Payment = () => {
       });
 
       const data = await response.json();
-      console.log("hvjvvjhnvvvvvv", data.data);
       if (data.data) {
-        initPayment(data.data); // Pass the response data to initPayment
+        initPayment(data.data);
       } else {
         console.error("Error creating order: No data received");
         Navigate("/cart");
@@ -267,10 +264,8 @@ export const Payment = () => {
 
   const clear = async () => {
     try {
-      // Ensure addorder() completes before proceeding
       await addorder();
 
-      // Ensure OrderData is properly updated after addorder()
       if (!OrderData || !OrderData._id) {
         showAlert("Order data is missing. Please try again.", "error");
         return;
@@ -290,7 +285,6 @@ export const Payment = () => {
         credentials: "include",
       });
 
-      // Check if the request was successful
       if (!response.ok) {
         throw new Error(`Server responded with status: ${response.status}`);
       }

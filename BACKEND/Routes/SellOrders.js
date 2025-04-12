@@ -8,17 +8,14 @@ const User = require("../Schema/User");
 
 router.get("/SellOrders", Authmid, async (req, res) => {
     try {
-        // Fetch all reseller data of the logged-in user
         const Resellerdata = await Reseller.find({ User_id: req.userId });
 
         if (Resellerdata.length === 0) {
             return res.status(404).json({ error: "No books found by the user" });
         }
 
-        // Extract all book IDs from reseller data
         const bookIds = Resellerdata.map(reseller => reseller.Book_id);
 
-        // Fetch all books related to those book IDs
         const books = await Book.find({ _id: { $in: bookIds } });
 
         res.json({ books, resellerdata: Resellerdata });
@@ -48,16 +45,13 @@ router.get("/SellOrder", Authmid,async (req, res) => {
 
 router.get("/resellerbook", async (req, res) => {
     try {
-        // Fetch all resellers and populate user details
         const resellers = await Reseller.find().populate({
             path: "User_id",
             select: "First_name Last_name",
         });
 
-        // Get unique Book IDs from resellers
         const bookIds = resellers.map((reseller) => reseller.Book_id);
 
-        // Fetch books that are in reseller list
         const books = await Book.find({ _id: { $in: bookIds } });
 
         res.json({ resellers, books });
@@ -72,13 +66,10 @@ module.exports = router;
 
 router.get("/resellerbook", async (req, res) => {
     try {
-      // Fetch all resellers
       const resellers = await Reseller.find();
   
-      // Get unique Book IDs from resellers
       const bookIds = resellers.map((reseller) => reseller.Book_id);
   
-      // Fetch books that are in reseller list
       const books = await Book.find({ _id: { $in: bookIds } });
   
       res.json({ resellers, books });
@@ -94,13 +85,11 @@ router.put("/:Status/SellOrders", Authmid, async (req, res) => {
         const { Status } = req.params;
         const { resellerid, bookid } = req.body;
 
-        // Update the reseller status
         const resellerUpdate = await Reseller.updateOne(
             { _id: resellerid },
             { $set: { Resell_Status: Status, Delivery_User_id: req.userId } }
         );
 
-        // Check if reseller update was successful
         if (resellerUpdate.modifiedCount === 0) {
             return res.status(404).json({ error: "Reseller not found or already updated" });
         }

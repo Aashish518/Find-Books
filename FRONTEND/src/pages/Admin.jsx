@@ -51,13 +51,11 @@ const Admin = () => {
 
         const doc = new jsPDF();
         
-        // Add title
         doc.setFontSize(20);
         doc.text('Sales Report', 14, 15);
         doc.setFontSize(12);
         doc.text(`Period: ${new Date(report.period.start).toLocaleDateString()} - ${new Date(report.period.end).toLocaleDateString()}`, 14, 25);
 
-        // Summary section
         doc.setFontSize(16);
         doc.text('Summary', 14, 35);
         doc.setFontSize(12);
@@ -75,7 +73,6 @@ const Admin = () => {
             theme: 'grid'
         });
 
-        // Payment Methods
         doc.setFontSize(16);
         doc.text('Payment Methods', 14, doc.lastAutoTable.finalY + 10);
         doc.setFontSize(12);
@@ -90,7 +87,6 @@ const Admin = () => {
             theme: 'grid'
         });
 
-        // Order Status
         doc.setFontSize(16);
         doc.text('Order Status', 14, doc.lastAutoTable.finalY + 10);
         doc.setFontSize(12);
@@ -102,7 +98,6 @@ const Admin = () => {
             theme: 'grid'
         });
 
-        // Top Books
         doc.setFontSize(16);
         doc.text('Top Selling Books', 14, doc.lastAutoTable.finalY + 10);
         doc.setFontSize(12);
@@ -119,7 +114,6 @@ const Admin = () => {
             theme: 'grid'
         });
 
-        // Save the PDF
         doc.save('sales-report.pdf');
     };
 

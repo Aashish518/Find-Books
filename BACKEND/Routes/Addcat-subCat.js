@@ -7,12 +7,11 @@ router.post("/Category", async (req, res) => {
   try {
     const { Category_Name } = req.body;
 
-    // Validate input
     if (!Category_Name) {
       return res.status(400).json({ message: "Invalid Category_Name" });
     }
 
-    const cat = await Category.findOne({ Category_Name }); // Add "await" here
+    const cat = await Category.findOne({ Category_Name });
 
     if (!cat) {
       const newCategory = new Category({ Category_Name });
@@ -23,7 +22,7 @@ router.post("/Category", async (req, res) => {
         category: savedCategory,
       });
     } else {
-      return res.status(400).json({ message: "Category Already Exists" }); // Change status to 400 (Bad Request)
+      return res.status(400).json({ message: "Category Already Exists" }); 
     }
   } catch (error) {
     res
@@ -46,7 +45,6 @@ router.post("/Subcategory", async (req, res) => {
   try {
     const { Subcategory_Name, Category_id } = req.body;
 
-    // Validate input
     if (!Subcategory_Name) {
       return res.status(400).json({ message: "please enter Subcategory_Name" });
     } 
@@ -55,7 +53,6 @@ router.post("/Subcategory", async (req, res) => {
       return res.status(400).json({ message: "please enter Category_id" });
     }
 
-    // Ensure the referenced category exists
     const category = await Category.findById({_id : Category_id});
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
@@ -88,7 +85,6 @@ router.post("/Subcategory", async (req, res) => {
 
 router.get("/:Category/Subcategory", async (req, res) => {
   try {
-    // console.log("Fetching subcategories for category ID:", req.params.Category); // Log the category ID
     const subcategories = await Subcategory.find({
       Category_id: req.params.Category,
     });
@@ -99,7 +95,7 @@ router.get("/:Category/Subcategory", async (req, res) => {
       res.status(404).json({ message: "No subcategories found" });
     }
   } catch (error) {
-    console.error("Error fetching subcategories:", error); // Log the error
+    console.error("Error fetching subcategories:", error);
     res.status(500).json({ message: "Error fetching subcategories", error: error.message });
   }
 });

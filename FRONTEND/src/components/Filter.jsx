@@ -18,9 +18,9 @@ export const FilterComponent = ({ books, onFilterChange }) => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 1024);
       if (window.innerWidth > 1024) {
-        setIsSidebarOpen(true); // Always show sidebar on large screens
+        setIsSidebarOpen(true);
       } else {
-        setIsSidebarOpen(false); // Hide sidebar on small screens
+        setIsSidebarOpen(false);
       }
     };
 
@@ -61,16 +61,13 @@ export const FilterComponent = ({ books, onFilterChange }) => {
 
   return (
     <>
-      {/* Mobile Sidebar Toggle Button (Only visible on small screens) */}
       {isMobile && (
         <button className="filter-toggle" onClick={() => setIsSidebarOpen(true)}>
           <FiFilter size={24} />
         </button>
       )}
 
-      {/* Sidebar */}
       <div className={`filter-sidebar ${isSidebarOpen || !isMobile ? "open" : ""}`}>
-        {/* Close Button (Visible only on small screens) */}
         {isMobile && (
           <button className="close-btn" onClick={() => setIsSidebarOpen(false)}>
             <FiX size={24} />

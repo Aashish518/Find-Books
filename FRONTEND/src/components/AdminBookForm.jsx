@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
 
 export const AdminBookForm = ({ UserRole }) => {
+
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
-  const [errors, setErrors] = useState({}); // Store validation errors
-  const {showAlert} = useAlert();
+  const [errors, setErrors] = useState({});
+  const { showAlert } = useAlert();
 
   const [formData, setFormData] = useState({
     BookName: "",
@@ -25,12 +26,10 @@ export const AdminBookForm = ({ UserRole }) => {
     SubCategory: ""
   });
 
-  // Handle form submission (validation + API call)
   const handleSubmit = async (e) => {
     e.preventDefault();
     let newErrors = {};
-  
-    // Validation checks
+
     if (!formData.BookName.trim()) newErrors.BookName = "Book Name is required";
     if (!formData.Author.trim()) newErrors.Author = "Author is required";
     if (!formData.Edition.trim()) newErrors.Edition = "Edition is required";
@@ -41,43 +40,41 @@ export const AdminBookForm = ({ UserRole }) => {
     if (!formData.ISBN.trim()) newErrors.ISBN = "ISBN is required";
     if (!formData.Category) newErrors.Category = "Category is required";
     if (!formData.SubCategory) newErrors.SubCategory = "Subcategory is required";
-  
+
     setErrors(newErrors);
-  
+
     if (Object.keys(newErrors).length === 0) {
       try {
         const formDataToSend = new FormData();
         for (const key in formData) {
           formDataToSend.append(key, formData[key]);
         }
-  
+
         const response = await fetch(`http://localhost:2606/api/${UserRole}/Book`, {
           method: "POST",
           body: formDataToSend,
           credentials: "include"
         });
-  
-        // Handle response errors
+
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-  
+
         const json = await response.json();
-        console.log("API Response:", json);
-  
+
         if (json.book) {
-          showAlert("Book Added successfully!","success");
+          showAlert("Book Added successfully!", "success");
           navigate("/Admin/ManageBooks");
         } else {
-          showAlert(json.message || "Book not added","error");
+          showAlert(json.message || "Book not added", "error");
         }
       } catch (error) {
         console.error("Error occurred during submission:", error);
-        showAlert("An error occurred. Please check the console for details.","error");
+        showAlert("An error occurred. Please check the console for details.", "error");
       }
     }
   };
-  
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -96,7 +93,7 @@ export const AdminBookForm = ({ UserRole }) => {
   const handleCategoryChange = async (e) => {
     const categoryId = e.target.value;
     setFormData((prev) => ({ ...prev, Category: categoryId }));
-    setErrors((prevErrors) => ({ ...prevErrors, Category: "" })); // Clear error when user selects category
+    setErrors((prevErrors) => ({ ...prevErrors, Category: "" }));
 
     try {
       const response = await fetch(`http://localhost:2606/api/${categoryId}/Subcategory`);
@@ -111,7 +108,7 @@ export const AdminBookForm = ({ UserRole }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" })); // Clear errors on input change
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
   const handleImageChange = (e) => {
@@ -137,7 +134,7 @@ export const AdminBookForm = ({ UserRole }) => {
       <input type="date" name="Publication_Date" value={formData.Publication_Date} onChange={handleChange} />
       {errors.Publication_Date && <p className="error-message">{errors.Publication_Date}</p>}
 
-      
+
       <label>Edition</label>
       <input type="text" name="Edition" value={formData.Edition} onChange={handleChange} />
       {errors.Edition && <p className="error-message">{errors.Edition}</p>}

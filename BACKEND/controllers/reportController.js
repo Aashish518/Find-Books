@@ -7,7 +7,6 @@ const fs = require("fs");
 const path = require("path");
 const { generatePDF } = require("../utils/pdfGenerator");
 
-// Create reports directory if it doesn't exist
 const reportsDir = path.join(__dirname, "../reports");
 if (!fs.existsSync(reportsDir)) {
   fs.mkdirSync(reportsDir);
@@ -28,7 +27,6 @@ const generateReport = async (req, res) => {
       return res.status(400).json({ success: false, message: "Start date must be before end date" });
     }
 
-    // Generate report data
     const reportData = {
       period: { start, end },
       summary: {
@@ -43,7 +41,6 @@ const generateReport = async (req, res) => {
       topBooks: []
     };
 
-    // Get orders and payments within date range
     const orders = await Order.find({
       Order_Date: { $gte: start, $lte: end }
     }).populate('User_id');
@@ -52,11 +49,9 @@ const generateReport = async (req, res) => {
       payment_date: { $gte: start, $lte: end }
     });
 
-    // Calculate summary statistics
     reportData.summary.totalOrders = orders.length;
     reportData.summary.uniqueCustomers = new Set(orders.map(order => order.User_id._id)).size;
 
-    // Calculate revenue and payment methods
     let totalRevenue = 0;
     payments.forEach(payment => {
       if (payment.payment_status.toLowerCase() === "completed") {
@@ -70,7 +65,6 @@ const generateReport = async (req, res) => {
     reportData.summary.totalRevenue = totalRevenue;
     reportData.summary.averageOrderValue = orders.length > 0 ? totalRevenue / orders.length : 0;
 
-    // Calculate payment methods
     payments.forEach(payment => {
       if (payment.payment_status.toLowerCase() === "completed") {
         if (payment.payment_method.toLowerCase() === "online") {
@@ -81,24 +75,19 @@ const generateReport = async (req, res) => {
       }
     });
 
-    // Calculate order status distribution
     orders.forEach(order => {
       const status = order.Order_Status.toLowerCase();
       reportData.summary.orderStatus.set(status, (reportData.summary.orderStatus.get(status) || 0) + 1);
     });
 
-    // Calculate book sales and revenue
     const bookSales = new Map();
     let totalBooksSold = 0;
 
-    // First, get all book IDs from orders
     const bookIds = [...new Set(orders.flatMap(order => order.books.map(book => book.book_id)))];
 
-    // Fetch all books in one query
     const books = await Book.find({ _id: { $in: bookIds } });
     const bookMap = new Map(books.map(book => [book._id.toString(), book]));
 
-    // Calculate sales and revenue for each book
     orders.forEach(order => {
       order.books.forEach(orderBook => {
         const book = bookMap.get(orderBook.book_id.toString());
@@ -124,7 +113,6 @@ const generateReport = async (req, res) => {
 
     reportData.summary.totalBooksSold = totalBooksSold;
 
-    // Convert book sales map to array and sort by sales
     reportData.topBooks = Array.from(bookSales.values())
       .sort((a, b) => b.sales - a.sales)
       .slice(0, 10)
@@ -135,13 +123,11 @@ const generateReport = async (req, res) => {
         revenue: book.revenue
       }));
 
-    // Generate PDF
     const pdfBuffer = await generatePDF(reportData);
     const pdfFileName = `report_${Date.now()}.pdf`;
     const pdfPath = path.join(reportsDir, pdfFileName);
     fs.writeFileSync(pdfPath, pdfBuffer);
 
-    // Save report to database
     const report = new Report({
       ...reportData,
       pdfPath: pdfFileName

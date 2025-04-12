@@ -5,7 +5,6 @@ const User = require("../Schema/User");
 
 router.get("/profile", authenticateToken, async (req, res) => {
     try {
-        // Make sure req.userId is correctly set by the authenticateToken middleware
         const user = await User.findOne({ _id: req.userId });
 
         if (!user) {

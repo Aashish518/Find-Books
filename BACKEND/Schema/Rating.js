@@ -20,7 +20,7 @@ const ratingSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now // Correct way to set current date
+    default: Date.now 
   }
 });
 

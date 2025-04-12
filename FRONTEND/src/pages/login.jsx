@@ -34,7 +34,6 @@ export const Login = () => {
 
 
 
-  //Send OTP Back API in Auth Router
   const handleSendOtp = async (event) => {
     event.preventDefault(); 
     event.stopPropagation();
@@ -70,7 +69,6 @@ export const Login = () => {
 
 
 
-  //Verify OTP Back API in Auth Router 
   const handleVerifyOtp = async () => {
     if (!Regcredentials.email || !otp) {
       showAlert("Please enter both email and OTP.","error");
@@ -91,11 +89,11 @@ export const Login = () => {
       }
       else {
         setVerified(true);
-        setStep(3); // Proceed to next step
+        setStep(3); 
       }
 
       showAlert("OTP verified successfully.","success");
-      setStep(3); // Proceed to next step
+      setStep(3);
 
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -105,31 +103,25 @@ export const Login = () => {
 
 
 
-  //Registration Validation
   const validateRegistration = () => {
     const newErrors = {};
 
-    // First Name validation
     if (Regcredentials.firstName.trim().length < 2) {
       newErrors.firstName = "First name is required and must be at least 2 characters";
     }
 
-    // Last Name validation
     if (Regcredentials.lastName.trim().length < 2) {
       newErrors.lastName = "Last name is required and must be at least 2 characters";
     }
 
-    // Email validation
     if (!Regcredentials.email.toLowerCase().endsWith("@gmail.com")) {
       newErrors.email = "Please enter a valid Gmail address";
     }
 
-    // Mobile validation
     if (!/^\d{10}$/.test(Regcredentials.mobile)) {
       newErrors.mobile = "Mobile number must be exactly 10 digits";
     }
 
-    // Password validation
     if (Regcredentials.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters long";
     }
@@ -140,16 +132,13 @@ export const Login = () => {
 
 
 
-  //Login Validation
   const validateLogin = () => {
     const newErrors = {};
 
-    // Email validation
     if (!Logcredentials.email.toLowerCase().endsWith("@gmail.com")) {
       newErrors.loginEmail = "Please enter a valid Gmail address";
     }
 
-    // Password validation
     if (Logcredentials.password.length < 6) {
       newErrors.loginPassword = "Password must be at least 6 characters long";
     }
@@ -160,7 +149,6 @@ export const Login = () => {
 
 
 
-  //Registration Back API in Auth Router
   const handleReg = async (e) => {
     e.preventDefault();
 
@@ -199,7 +187,6 @@ export const Login = () => {
 
 
 
-  //Login Back API in Auth Router
   const HandleLog = async (e) => {
     e.preventDefault();
 
@@ -238,7 +225,6 @@ export const Login = () => {
 
 
 
-  //onChange event for Ragistration
   const RegChange = (e) => {
     const { name, value } = e.target;
     SetRegcredentials((prev) => ({ ...prev, [name]: value }));
@@ -250,7 +236,6 @@ export const Login = () => {
 
 
 
-  //onChange event for Login
   const LogChange = (e) => {
     const { name, value } = e.target;
     Setlogcredentials((prev) => ({ ...prev, [name]: value }));
