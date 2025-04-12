@@ -6,9 +6,13 @@ const PORT = 2606;
 const cookieparser = require('cookie-parser');
 const dotenv = require("dotenv");
 const reportRoutes = require('./Routes/report');
+const path =requre("path")
 dotenv.config();
 
-
+app.use(express.static(path.join(__dirname, "../FRONTEND/build")))
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname,"../FRONTEND/build","index.html"))
+})
 app.use(cors({
     origin: true,
     credentials: true,
