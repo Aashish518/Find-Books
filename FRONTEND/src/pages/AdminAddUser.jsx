@@ -24,7 +24,7 @@ export const AdminAddUser = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:2606/api/User", {
+      const response = await fetch("https://find-books-suke.onrender.com/api/User", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

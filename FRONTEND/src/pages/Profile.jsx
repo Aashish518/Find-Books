@@ -18,7 +18,7 @@ export const Profile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await fetch("http://localhost:2606/api/profile", {
+                const response = await fetch("https://find-books-suke.onrender.com/api/profile", {
                     credentials: "include",
                 });
                 const json = await response.json();

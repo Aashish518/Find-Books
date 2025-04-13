@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
     const getUser = async () => {
         try {
-            const response = await fetch(`http://localhost:2606/api/User?t=${Date.now()}`, {
+            const response = await fetch(`https://find-books-suke.onrender.com/api/User?t=${Date.now()}`, {
                 method: "GET",
                 credentials: "include",
             });

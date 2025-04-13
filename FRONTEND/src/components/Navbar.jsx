@@ -21,7 +21,7 @@ export const Navbar = () => {
   useEffect(() => {
     const GetUser = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/User", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/User", {
           credentials: "include",
         });
 

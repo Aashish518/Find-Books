@@ -12,7 +12,7 @@ const ManageResellers = () => {
 
     const fetchResellers = async () => {
         try {
-            const response = await fetch("http://localhost:2606/api/resellerbook");
+            const response = await fetch("https://find-books-suke.onrender.com/api/resellerbook");
             const data = await response.json();
             setResellers(data.resellers);
         } catch (error) {

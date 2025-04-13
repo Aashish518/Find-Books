@@ -16,7 +16,7 @@ export const AdminOrders = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/Orders", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/Orders", {
           credentials: "include",
         });
         const json = await response.json();
@@ -31,7 +31,7 @@ export const AdminOrders = () => {
 
     const GetUsers = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/AllUser", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/AllUser", {
           credentials: "include",
         });
         const json = await response.json();
@@ -45,7 +45,7 @@ export const AdminOrders = () => {
 
     const fetchBook = async () => {
       try {
-        const res = await fetch("http://localhost:2606/api/Book");
+        const res = await fetch("https://find-books-suke.onrender.com/api/Book");
         const data = await res.json();
         setBookdata(data);
       } catch (error) {

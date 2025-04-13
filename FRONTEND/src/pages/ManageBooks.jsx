@@ -13,7 +13,7 @@ export const ManageBooks = () => {
 
   const fetchBook = async () => {
     try {
-      const res = await fetch("http://localhost:2606/api/Book");
+      const res = await fetch("https://find-books-suke.onrender.com/api/Book");
       const data = await res.json();
       setBookdata(data);
     } catch (error) {
@@ -37,7 +37,7 @@ export const ManageBooks = () => {
     if (!window.confirm("Are you sure you want to delete this book?")) return;
 
     try {
-      const response = await fetch("http://localhost:2606/api/Book", {
+      const response = await fetch("https://find-books-suke.onrender.com/api/Book", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +112,7 @@ export const ManageBooks = () => {
                     <td className="centered">{index + 1}</td>
                     <td>
                       <img
-                        src={`http://localhost:2606/${product.BookImageURL}`}
+                        src={`https://find-books-suke.onrender.com/${product.BookImageURL}`}
                         alt={product.BookName}
                         className="bookImage"
                       />

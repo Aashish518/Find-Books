@@ -15,7 +15,7 @@ export const MyOrders = () => {
   useEffect(() => {
     const fetchCarts = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/Order", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/Order", {
           credentials: "include",
         });
 
@@ -37,7 +37,7 @@ export const MyOrders = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       const response = await fetch(
-        `http://localhost:2606/api/${orderId}/status`,
+        `https://find-books-suke.onrender.com/api/${orderId}/status`,
         {
           method: "PUT",
           headers: {
@@ -144,7 +144,7 @@ export const MyOrders = () => {
                             <div key={bookItem._id} className="book-card">
                               <div className="book-image">
                                 <img
-                                  src={`http://localhost:2606/${bookItem.BookImageURL}`}
+                                  src={`https://find-books-suke.onrender.com/${bookItem.BookImageURL}`}
                                   alt={bookItem.BookName}
                                 />
                               </div>

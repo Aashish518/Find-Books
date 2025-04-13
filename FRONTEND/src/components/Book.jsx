@@ -60,8 +60,8 @@ export const Book = () => {
   const fetchBook = async () => {
     try {
       const [bookRes, sellOrderRes] = await Promise.all([
-        fetch("http://localhost:2606/api/Book"),
-        fetch("http://localhost:2606/api/resellerbook")
+        fetch("https://find-books-suke.onrender.com/api/Book"),
+        fetch("https://find-books-suke.onrender.com/api/resellerbook")
       ]);
 
       const [bookData, sellOrderData] = await Promise.all([

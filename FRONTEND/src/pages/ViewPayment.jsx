@@ -8,7 +8,7 @@ export const ViewPayment = () => {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const response = await fetch("http://localhost:2606/api/verify", {
+                const response = await fetch("https://find-books-suke.onrender.com/api/verify", {
                     credentials: "include",
                 });
                 const json = await response.json();

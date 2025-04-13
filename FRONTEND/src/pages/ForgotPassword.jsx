@@ -34,7 +34,7 @@ function ForgotPassword() {
       return;
     }
 
-    await fetch("http://localhost:2606/api/forgot-password", {
+    await fetch("https://find-books-suke.onrender.com/api/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -45,7 +45,7 @@ function ForgotPassword() {
   };
 
   const handleVerifyOtp = async () => {
-    const res = await fetch("http://localhost:2606/api/verify-otp", {
+    const res = await fetch("https://find-books-suke.onrender.com/api/verify-otp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, otp }),
@@ -59,7 +59,7 @@ function ForgotPassword() {
   };
 
   const handleResetPassword = async () => {
-    const response = await fetch("http://localhost:2606/api/reset-password", {
+    const response = await fetch("https://find-books-suke.onrender.com/api/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, newPassword }),

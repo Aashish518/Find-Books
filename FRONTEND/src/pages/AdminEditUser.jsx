@@ -45,7 +45,7 @@ export const AdminEditUser = () => {
     }
   
     try {
-      const response = await fetch("http://localhost:2606/api/User", {
+      const response = await fetch("https://find-books-suke.onrender.com/api/User", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

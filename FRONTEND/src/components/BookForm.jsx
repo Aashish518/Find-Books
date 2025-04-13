@@ -27,7 +27,7 @@ export const BookForm = ({ UserRole }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/Category");
+        const response = await fetch("https://find-books-suke.onrender.com/api/Category");
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -43,7 +43,7 @@ export const BookForm = ({ UserRole }) => {
     setErrors((prevErrors) => ({ ...prevErrors, Category: "" })); 
 
     try {
-      const response = await fetch(`http://localhost:2606/api/${categoryId}/Subcategory`);
+      const response = await fetch(`https://find-books-suke.onrender.com/api/${categoryId}/Subcategory`);
       const data = await response.json();
       setSubcategories(Array.isArray(data) ? data : []);
     } catch (error) {

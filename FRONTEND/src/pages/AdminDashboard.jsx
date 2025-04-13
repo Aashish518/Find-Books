@@ -60,7 +60,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const GetUser = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/User", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/User", {
           credentials: "include",
         });
         const json = await response.json();
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
     GetUser();
     const getOrders = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/Orders", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/Orders", {
           credentials: "include",
         });
         const json = await response.json();
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
 
     const GetUsers = async () => {
       try {
-        const response = await fetch("http://localhost:2606/api/AllUser", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/AllUser", {
           credentials: "include",
         });
         const json = await response.json();
@@ -106,7 +106,7 @@ const AdminDashboard = () => {
 
     const fetchBook = async () => {
       try {
-        const res = await fetch("http://localhost:2606/api/Book");
+        const res = await fetch("https://find-books-suke.onrender.com/api/Book");
         const data = await res.json();
         setBookdata(data);
       } catch (error) {
@@ -121,7 +121,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const getRevenue = async () => {
       try {
-        const res = await fetch("http://localhost:2606/api/verify", {
+        const res = await fetch("https://find-books-suke.onrender.com/api/verify", {
           credentials: "include",
         });
         const data = await res.json();
@@ -164,7 +164,7 @@ const AdminDashboard = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:2606/api/${orderId}/Order`,
+          `https://find-books-suke.onrender.com/api/${orderId}/Order`,
           {
             method: "PUT",
             headers: {
@@ -217,7 +217,7 @@ const AdminDashboard = () => {
   const generateReport = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:2606/api/report/generate', {
+      const response = await fetch('https://find-books-suke.onrender.com/api/report/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -64,7 +64,7 @@ export const Bookdetail = () => {
   const fetchAverageRating = async () => {
     try {
       const response = await fetch(
-        `http://localhost:2606/api/Ratings/average/${book._id}`
+        `https://find-books-suke.onrender.com/api/Ratings/average/${book._id}`
       );
       const data = await response.json();
       setAvgRating(parseFloat(data.averageRating) || 0);
@@ -84,7 +84,7 @@ export const Bookdetail = () => {
 
     setRating(currentRating);
     try {
-      const response = await fetch("http://localhost:2606/api/Ratings", {
+      const response = await fetch("https://find-books-suke.onrender.com/api/Ratings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ book_id: book._id, rate: currentRating }),
@@ -107,7 +107,7 @@ export const Bookdetail = () => {
       Navigate("/login");
     } else {
       try {
-        const response = await fetch("http://localhost:2606/api/Cart", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/Cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ book_id: book._id, cart_quantity: 1 }),
@@ -133,7 +133,7 @@ export const Bookdetail = () => {
       Navigate("/login");
     } else {
       try {
-        const response = await fetch("http://localhost:2606/api/Cart", {
+        const response = await fetch("https://find-books-suke.onrender.com/api/Cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ book_id: book._id, cart_quantity: 1 }),
@@ -213,7 +213,7 @@ export const Bookdetail = () => {
           <div className="book-first">
             <div className="book-img">
               <img
-                src={`http://localhost:2606/${book.BookImageURL}`}
+                src={`https://find-books-suke.onrender.com/${book.BookImageURL}`}
                 alt={book.BookName}
               />
             </div>

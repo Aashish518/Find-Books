@@ -48,7 +48,7 @@ export const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:2606/api/registerotp", {
+      const response = await fetch("https://find-books-suke.onrender.com/api/registerotp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: Regcredentials.email }),
@@ -76,7 +76,7 @@ export const Login = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:2606/api/verifyotp", {
+      const res = await fetch("https://find-books-suke.onrender.com/api/verifyotp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: Regcredentials.email, otp }),
@@ -162,7 +162,7 @@ export const Login = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:2606/api/User", {
+      const response = await fetch("https://find-books-suke.onrender.com/api/User", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(Regcredentials),
