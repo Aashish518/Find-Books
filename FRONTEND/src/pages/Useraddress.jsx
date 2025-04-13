@@ -3,6 +3,8 @@ import "../pages-css/Useraddress.css";
 import {useNavigate } from "react-router-dom";
 import { useCart } from "../Context/order";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const Useraddress = () => {
     const Navigate = useNavigate();
@@ -69,7 +71,7 @@ export const Useraddress = () => {
         }
 
         try {
-            const response = await fetch("https://find-books-suke.onrender.com/api/Order", {
+            const response = await fetch(`${BASE_URL}/api/Order`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

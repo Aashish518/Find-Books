@@ -1,4 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 const AuthContext = createContext();
 
@@ -8,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
     const getUser = async () => {
         try {
-            const response = await fetch(`https://find-books-suke.onrender.com/api/User?t=${Date.now()}`, {
+            const response = await fetch(`${BASE_URL}/api/User?t=${Date.now()}`, {
                 method: "GET",
                 credentials: "include",
             });

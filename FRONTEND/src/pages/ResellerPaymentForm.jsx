@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../pages-css/ResellerPaymentForm.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const ResellerPaymentForm = () => {
     const [paymentMethod, setPaymentMethod] = useState("");
@@ -63,7 +65,7 @@ export const ResellerPaymentForm = () => {
         }
 
         try {
-            const response = await fetch(`https://find-books-suke.onrender.com/api/${UserRole}/Book`, {
+            const response = await fetch(`${BASE_URL}/api/${UserRole}/Book`, {
                 method: "POST",
                 body: formDataToSend,
                 credentials: "include",
@@ -73,7 +75,7 @@ export const ResellerPaymentForm = () => {
             const bookid = json.book?._id;
             if (bookid) {
                 try {
-                    const response = await fetch("https://find-books-suke.onrender.com/api/ResellerPaymentForm", {
+                    const response = await fetch(`${BASE_URL}/api/ResellerPaymentForm`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ ...formData, bookid }),

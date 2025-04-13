@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AdminContext";
 import Load from "../components/Load";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 const DeliverypersonRoute = ({ children }) => {
     const { user, loading } = useAuth();
@@ -51,7 +53,7 @@ const DeliveryDashboard = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/Orders", {
+        const response = await fetch("${BASE_URL}/api/Orders", {
           credentials: "include",
         });
         const json = await response.json();
@@ -67,7 +69,7 @@ const DeliveryDashboard = () => {
 
     const getSellOrder = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/SellOrder", {
+        const response = await fetch(`${BASE_URL}/api/SellOrder`, {
           credentials: "include",
         });
         const json = await response.json();

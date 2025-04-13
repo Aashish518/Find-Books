@@ -6,6 +6,8 @@ import { useCart } from "../Context/order";
 import { FaTrashAlt, FaArrowRight, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const Cart = () => {
     const [carts, setCarts] = useState([]);
@@ -18,7 +20,7 @@ export const Cart = () => {
 
     const handleRemoveItem = async (bookid) => {
         try {
-            const response = await fetch("https://find-books-suke.onrender.com/api/Cart", {
+            const response = await fetch(`${BASE_URL}/api/Cart`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ book_id: bookid }),
@@ -52,7 +54,7 @@ export const Cart = () => {
         const fetchCarts = async () => {
             setLoading(true);
             try {
-                const response = await fetch("https://find-books-suke.onrender.com/api/Cart", {
+                const response = await fetch(`${BASE_URL}/api/Cart`, {
                     credentials: "include",
                 });
                 const json = await response.json();
@@ -77,7 +79,7 @@ export const Cart = () => {
 
     const handleQuantityChange = async (bookid, action) => {
         try {
-            const response = await fetch("https://find-books-suke.onrender.com/api/updatequantity", {
+            const response = await fetch(`${BASE_URL}/api/updatequantity`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ book_id: bookid, action }),
@@ -105,7 +107,7 @@ export const Cart = () => {
 
     const clearcart = async() => {
         try {
-            const response = await fetch("https://find-books-suke.onrender.com/api/Cart", {
+            const response = await fetch(`${BASE_URL}/api/Cart`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -176,7 +178,7 @@ export const Cart = () => {
                                                     {item.Isoldbook ? "Resell" : "New"}
                                                 </span>
                                                 <img
-                                                    src={`https://find-books-suke.onrender.com/${item.BookImageURL}`}
+                                                    src={`${BASE_URL}/${item.BookImageURL}`}
                                                     alt={item.BookName}
                                                     className="item-image"
                                                 />

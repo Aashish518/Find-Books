@@ -5,6 +5,8 @@ import Load from "./Load";
 import "../components-css/Bookcard.css";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { HomeFeatures } from "./HomeFeature";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const Book = () => {
 
@@ -60,8 +62,8 @@ export const Book = () => {
   const fetchBook = async () => {
     try {
       const [bookRes, sellOrderRes] = await Promise.all([
-        fetch("https://find-books-suke.onrender.com/api/Book"),
-        fetch("https://find-books-suke.onrender.com/api/resellerbook")
+        fetch(`${BASE_URL}/api/Book`),
+        fetch(`${BASE_URL}/api/resellerbook`)
       ]);
 
       const [bookData, sellOrderData] = await Promise.all([

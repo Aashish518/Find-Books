@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom";
 import "../components-css/Bookcard.css";
 import Load from "../components/Load";
 import { Bookcard } from "../components/Bookcard";
-import {FilterComponent} from "../components/Filter";
+import { FilterComponent } from "../components/Filter";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const BooksPage = () => {
   const { subcategory } = useParams();
@@ -17,8 +19,8 @@ export const BooksPage = () => {
     const fetchBooks = async () => {
       try {
         const [bookRes, sellOrderRes] = await Promise.all([
-          fetch(`https://find-books-suke.onrender.com/api/${subcategory}/Books`),
-          fetch("https://find-books-suke.onrender.com/api/resellerbook")
+          fetch(`${BASE_URL}/api/${subcategory}/Books`),
+          fetch(`${BASE_URL}/api/resellerbook`)
         ]);
   
         const [bookData, sellOrderData] = await Promise.all([

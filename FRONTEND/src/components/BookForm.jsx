@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../components-css/BookForm.css";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const BookForm = ({ UserRole }) => {
 
@@ -27,7 +29,7 @@ export const BookForm = ({ UserRole }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/Category");
+        const response = await fetch(`${BASE_URL}/api/Category`);
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -43,7 +45,7 @@ export const BookForm = ({ UserRole }) => {
     setErrors((prevErrors) => ({ ...prevErrors, Category: "" })); 
 
     try {
-      const response = await fetch(`https://find-books-suke.onrender.com/api/${categoryId}/Subcategory`);
+      const response = await fetch(`${BASE_URL}/api/${categoryId}/Subcategory`);
       const data = await response.json();
       setSubcategories(Array.isArray(data) ? data : []);
     } catch (error) {

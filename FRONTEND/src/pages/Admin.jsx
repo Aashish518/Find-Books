@@ -5,6 +5,8 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import '../pages-css/Admin.css';
 import { useAlert } from '../Context/AlertContext';
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 const Admin = () => {
     const [report, setReport] = useState(null);
@@ -19,7 +21,7 @@ const Admin = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const response = await fetch('https://find-books-suke.onrender.com/api/report/generate', {
+            const response = await fetch(`${BASE_URL}/api/report/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

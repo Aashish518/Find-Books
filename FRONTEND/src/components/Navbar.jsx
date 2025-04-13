@@ -9,6 +9,8 @@ import '../components-css/Navbar.css';
 import Cookies from "js-cookie";
 import { Category } from "../pages/Category";
 import { useNavigate } from "react-router-dom";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const Navbar = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -21,7 +23,7 @@ export const Navbar = () => {
   useEffect(() => {
     const GetUser = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/User", {
+        const response = await fetch(`${BASE_URL}/api/User`, {
           credentials: "include",
         });
 

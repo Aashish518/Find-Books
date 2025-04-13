@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "../pages-css/ManageUsers.css";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const ManageUsers = () => {
   const [search, setSearch] = useState("");
@@ -15,7 +17,7 @@ export const ManageUsers = () => {
   useEffect(() => {
     const GetUsers = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/AllUser", {
+        const response = await fetch(`${BASE_URL}/api/AllUser`, {
           credentials: "include",
         });
         const json = await response.json();
@@ -45,7 +47,7 @@ export const ManageUsers = () => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
   
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/User", {
+      const response = await fetch(`${BASE_URL}/api/User`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

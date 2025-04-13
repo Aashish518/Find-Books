@@ -5,6 +5,8 @@ import { ProfileMenu } from "../components/ProfileMenu";
 import { Package, Calendar, CreditCard, Truck, XCircle } from "lucide-react";
 import Load from "../components/Load";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const MyOrders = () => {
   const [order, setOrder] = useState([]);
@@ -15,7 +17,7 @@ export const MyOrders = () => {
   useEffect(() => {
     const fetchCarts = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/Order", {
+        const response = await fetch(`${BASE_URL}/api/Order`, {
           credentials: "include",
         });
 
@@ -37,7 +39,7 @@ export const MyOrders = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       const response = await fetch(
-        `https://find-books-suke.onrender.com/api/${orderId}/status`,
+        `${BASE_URL}/api/${orderId}/status`,
         {
           method: "PUT",
           headers: {
@@ -144,7 +146,7 @@ export const MyOrders = () => {
                             <div key={bookItem._id} className="book-card">
                               <div className="book-image">
                                 <img
-                                  src={`https://find-books-suke.onrender.com/${bookItem.BookImageURL}`}
+                                  src={`${BASE_URL}/${bookItem.BookImageURL}`}
                                   alt={bookItem.BookName}
                                 />
                               </div>

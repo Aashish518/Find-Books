@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../components-css/BookForm.css";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const AdminEditBook = () => {
   const navigate = useNavigate();
@@ -47,7 +49,7 @@ export const AdminEditBook = () => {
         headers["Content-Type"] = "application/json";
       }
   
-      const response = await fetch("https://find-books-suke.onrender.com/api/Book", {
+      const response = await fetch(`${BASE_URL}/api/Book`, {
         method: "PUT",
         headers,
         body,
@@ -92,7 +94,7 @@ export const AdminEditBook = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/Category");
+        const response = await fetch(`${BASE_URL}/api/Category`);
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -107,7 +109,7 @@ export const AdminEditBook = () => {
       const fetchSubcategories = async () => {
         try {
           const response = await fetch(
-            `https://find-books-suke.onrender.com/api/${formData.Category}/Subcategory`
+            `${BASE_URL}/api/${formData.Category}/Subcategory`
           );
           const data = await response.json();
           setSubcategories(Array.isArray(data) ? data : []);
@@ -162,7 +164,7 @@ export const AdminEditBook = () => {
       />
       {product?.image && !formData.image && (
         <img
-          src={`https://find-books-suke.onrender.com/${product.image}`}
+          src={`${BASE_URL}/${product.image}`}
           alt="Current Preview"
           style={{ maxWidth: "200px", maxHeight: "200px" }}
         />

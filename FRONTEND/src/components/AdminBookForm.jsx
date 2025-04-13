@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "../components-css/BookForm.css";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const AdminBookForm = ({ UserRole }) => {
 
@@ -50,7 +52,7 @@ export const AdminBookForm = ({ UserRole }) => {
           formDataToSend.append(key, formData[key]);
         }
 
-        const response = await fetch(`https://find-books-suke.onrender.com/api/${UserRole}/Book`, {
+        const response = await fetch(`${BASE_URL}/api/${UserRole}/Book`, {
           method: "POST",
           body: formDataToSend,
           credentials: "include"
@@ -79,7 +81,7 @@ export const AdminBookForm = ({ UserRole }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/Category");
+        const response = await fetch(`${BASE_URL}/api/Category`);
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -96,7 +98,7 @@ export const AdminBookForm = ({ UserRole }) => {
     setErrors((prevErrors) => ({ ...prevErrors, Category: "" }));
 
     try {
-      const response = await fetch(`https://find-books-suke.onrender.com/api/${categoryId}/Subcategory`);
+      const response = await fetch(`${BASE_URL}/api/${categoryId}/Subcategory`);
       const data = await response.json();
       setSubcategories(Array.isArray(data) ? data : []);
     } catch (error) {

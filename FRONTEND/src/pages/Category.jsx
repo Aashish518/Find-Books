@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../pages-css/Category.css";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const Category = () => {
     const [categories, setCategories] = useState([]);
@@ -9,7 +11,7 @@ export const Category = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch("https://find-books-suke.onrender.com/api/Category");
+                const response = await fetch(`${BASE_URL}/api/Category`);
                 const data = await response.json();
                 setCategories(data);
                 fetchAllSubcategories(data);
@@ -25,7 +27,7 @@ export const Category = () => {
         await Promise.all(
             categories.map(async (category) => {
                 try {
-                    const response = await fetch(`https://find-books-suke.onrender.com/api/${category._id}/Subcategory`);
+                    const response = await fetch(`${BASE_URL}/api/${category._id}/Subcategory`);
                     const data = await response.json();
                     subcategoryData[category._id] = data;
                 } catch (error) {

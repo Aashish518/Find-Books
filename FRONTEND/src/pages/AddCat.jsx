@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "../pages-css/AddCat.css";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const AddCat = () => {
   const [categories, setCategories] = useState([]);
@@ -15,7 +17,7 @@ export const AddCat = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/Category");
+      const response = await fetch(`${BASE_URL}/api/Category`);
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -26,7 +28,7 @@ export const AddCat = () => {
   const handleAddCategory = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/Category", {
+      const response = await fetch(`${BASE_URL}/api/Category`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ Category_Name: categoryName })
@@ -50,7 +52,7 @@ export const AddCat = () => {
       return;
     }
     try {
-      const response = await fetch(`https://find-books-suke.onrender.com/api/Subcategory`, {
+      const response = await fetch(`${BASE_URL}/api/Subcategory`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ Subcategory_Name: subcategoryName ,Category_id : selectedCategory })

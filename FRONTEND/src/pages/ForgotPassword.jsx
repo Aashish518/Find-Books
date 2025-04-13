@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../pages-css/ForgotPassword.css";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -34,7 +36,7 @@ function ForgotPassword() {
       return;
     }
 
-    await fetch("https://find-books-suke.onrender.com/api/forgot-password", {
+    await fetch("${BASE_URL}/api/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -45,7 +47,7 @@ function ForgotPassword() {
   };
 
   const handleVerifyOtp = async () => {
-    const res = await fetch("https://find-books-suke.onrender.com/api/verify-otp", {
+    const res = await fetch(`${BASE_URL}/api/verify-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, otp }),
@@ -59,7 +61,7 @@ function ForgotPassword() {
   };
 
   const handleResetPassword = async () => {
-    const response = await fetch("https://find-books-suke.onrender.com/api/reset-password", {
+    const response = await fetch(`${BASE_URL}/api/reset-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, newPassword }),

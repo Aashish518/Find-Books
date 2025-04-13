@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../pages-css/ResellDeliveryDetail.css";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const ResellDeliveryDetail = () => {
     const navigate = useNavigate();
@@ -41,7 +43,7 @@ export const ResellDeliveryDetail = () => {
         }
 
         try {
-            const res = await fetch("https://find-books-suke.onrender.com/api/forgot-password", {
+            const res = await fetch(`${BASE_URL}/api/forgot-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
@@ -61,7 +63,7 @@ export const ResellDeliveryDetail = () => {
 
     const handleVerifyOtp = async () => {
         try {
-            const res = await fetch("https://find-books-suke.onrender.com/api/verify-otp", {
+            const res = await fetch(`${BASE_URL}/api/verify-otp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, otp }),
@@ -82,7 +84,7 @@ export const ResellDeliveryDetail = () => {
         if (timer > 0) return;
 
         try {
-            const res = await fetch("https://find-books-suke.onrender.com/api/resend-otp", {
+            const res = await fetch(`${BASE_URL}/api/resend-otp`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email }),
@@ -101,7 +103,7 @@ export const ResellDeliveryDetail = () => {
 
     const updateOrderStatus = async (resellerid, newStatus) => {
             try {
-                const response = await fetch(`https://find-books-suke.onrender.com/api/${newStatus}/SellOrders`, {
+                const response = await fetch(`${BASE_URL}/api/${newStatus}/SellOrders`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ resellerid: resellerid, bookid: booksdetail._id }),
@@ -120,7 +122,7 @@ export const ResellDeliveryDetail = () => {
     
     const addpaymentdata = async() => {
         try {
-            const response = await fetch(`https://find-books-suke.onrender.com/api/${"debit"}/codpayment`, {
+            const response = await fetch(`${BASE_URL}/api/${"debit"}/codpayment`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

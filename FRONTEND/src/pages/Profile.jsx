@@ -6,6 +6,8 @@ import { ProfileMenu } from "../components/ProfileMenu";
 import { useState, useEffect } from "react";
 import { Plus, Mail, Phone, User, Calendar } from "lucide-react";
 import Load from "../components/Load";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const Profile = () => {
     const navigate = useNavigate();
@@ -18,7 +20,7 @@ export const Profile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await fetch("https://find-books-suke.onrender.com/api/profile", {
+                const response = await fetch(`${BASE_URL}/api/profile`, {
                     credentials: "include",
                 });
                 const json = await response.json();

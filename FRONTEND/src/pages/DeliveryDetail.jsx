@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../pages-css/DeliveryDetail.css";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const DeliveryDetail = () => {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ export const DeliveryDetail = () => {
     }
 
     try {
-      const res = await fetch("https://find-books-suke.onrender.com/api/forgot-password", {
+      const res = await fetch(`${BASE_URL}/api/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -62,7 +64,7 @@ export const DeliveryDetail = () => {
 
   const handleVerifyOtp = async () => {
     try {
-      const res = await fetch("https://find-books-suke.onrender.com/api/verify-otp", {
+      const res = await fetch(`${BASE_URL}/api/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
@@ -83,7 +85,7 @@ export const DeliveryDetail = () => {
     if (timer > 0) return;
 
     try {
-      const res = await fetch("https://find-books-suke.onrender.com/api/resend-otp", {
+      const res = await fetch(`${BASE_URL}/api/resend-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -103,7 +105,7 @@ export const DeliveryDetail = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       const response = await fetch(
-        `https://find-books-suke.onrender.com/api/${orderId}/Order`,
+        `${BASE_URL}/api/${orderId}/Order`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -123,7 +125,7 @@ export const DeliveryDetail = () => {
     }
     if (paymentdetail[0].payment_method === "COD") {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/codpayment", {
+        const response = await fetch(`${BASE_URL}/api/codpayment`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ paymentid: paymentdetail[0]._id }),

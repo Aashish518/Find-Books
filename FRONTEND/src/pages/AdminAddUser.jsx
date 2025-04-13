@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../pages-css/AdminAddUser.css"; 
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const AdminAddUser = () => {
   const [user, setUser] = useState({
@@ -24,7 +26,7 @@ export const AdminAddUser = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/User", {
+      const response = await fetch(`${BASE_URL}/api/User`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

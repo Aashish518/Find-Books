@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../pages-css/AdminDashboard.css";
 import { useViewOrder } from "../Context/OrderDetail";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const AdminOrders = () => {
   const [bookdata, setBookdata] = useState([]);
@@ -16,7 +18,7 @@ export const AdminOrders = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/Orders", {
+        const response = await fetch(`${BASE_URL}/api/Orders`, {
           credentials: "include",
         });
         const json = await response.json();
@@ -31,7 +33,7 @@ export const AdminOrders = () => {
 
     const GetUsers = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/AllUser", {
+        const response = await fetch(`${BASE_URL}/api/AllUser`, {
           credentials: "include",
         });
         const json = await response.json();
@@ -45,7 +47,7 @@ export const AdminOrders = () => {
 
     const fetchBook = async () => {
       try {
-        const res = await fetch("https://find-books-suke.onrender.com/api/Book");
+        const res = await fetch(`${BASE_URL}/api/Book`);
         const data = await res.json();
         setBookdata(data);
       } catch (error) {

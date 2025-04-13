@@ -7,6 +7,8 @@ import { ImBooks } from "react-icons/im";
 import { MdOutlineSell } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { FaUserCircle } from 'react-icons/fa';
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export function ProfileMenu() {
     const [role, setRole] = useState(null);
@@ -17,7 +19,7 @@ export function ProfileMenu() {
     useEffect(() => {
         const GetUser = async () => {
             try {
-                const response = await fetch("https://find-books-suke.onrender.com/api/User", {
+                const response = await fetch(`${BASE_URL}/api/User`, {
                     credentials: "include",
                 });
 

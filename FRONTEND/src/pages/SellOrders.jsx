@@ -5,6 +5,8 @@ import { ProfileMenu } from "../components/ProfileMenu";
 import { Package, Calendar, CreditCard, Truck, XCircle } from "lucide-react";
 import Load from "../components/Load";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const SellOrders = () => {
   const [books, setBooks] = useState([]);
@@ -16,7 +18,7 @@ export const SellOrders = () => {
   useEffect(() => {
     const getSellOrder = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/SellOrders", {
+        const response = await fetch(`${BASE_URL}/api/SellOrders`, {
           credentials: "include",
         });
         const json = await response.json();
@@ -37,7 +39,7 @@ export const SellOrders = () => {
 
   const updatestatus = async (resellerid, bookid) => {
     try {
-      const response = await fetch(`https://find-books-suke.onrender.com/api/Book`, {
+      const response = await fetch(`${BASE_URL}/api/Book`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bookId: bookid }),
@@ -57,7 +59,7 @@ export const SellOrders = () => {
 
 setTimeout(async ()=> {
     try{
-      const response = await fetch(`https://find-books-suke.onrender.com/api/ResellerPaymentForm/${resellerid}`, {
+      const response = await fetch(`${BASE_URL}/api/ResellerPaymentForm/${resellerid}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resellerid: resellerid }),
@@ -154,7 +156,7 @@ setTimeout(async ()=> {
                             <div className="book-card">
                               <div className="book-image">
                                 <img
-                                  src={`https://find-books-suke.onrender.com/${bookdata.BookImageURL}`}
+                                  src={`${BASE_URL}/${bookdata.BookImageURL}`}
                                   alt={bookdata.BookName}
                                 />
                               </div>

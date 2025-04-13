@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../pages-css/ViewPayment.css";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const ViewPayment = () => {
     const [payments, setPayments] = useState([]);
@@ -8,7 +10,7 @@ export const ViewPayment = () => {
     useEffect(() => {
         const fetchPayments = async () => {
             try {
-                const response = await fetch("https://find-books-suke.onrender.com/api/verify", {
+                const response = await fetch(`${BASE_URL}/api/verify`, {
                     credentials: "include",
                 });
                 const json = await response.json();

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../pages-css/ManageReseller.css";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 const ManageResellers = () => {
     const [resellers, setResellers] = useState([]);
@@ -12,7 +14,7 @@ const ManageResellers = () => {
 
     const fetchResellers = async () => {
         try {
-            const response = await fetch("https://find-books-suke.onrender.com/api/resellerbook");
+            const response = await fetch(`${BASE_URL}/api/resellerbook`);
             const data = await response.json();
             setResellers(data.resellers);
         } catch (error) {

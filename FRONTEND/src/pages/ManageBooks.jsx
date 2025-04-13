@@ -2,6 +2,8 @@ import { useState, useEffect, startTransition } from "react";
 import "../pages-css/ManageBooks.css";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const ManageBooks = () => {
   const [search, setSearch] = useState("");
@@ -13,7 +15,7 @@ export const ManageBooks = () => {
 
   const fetchBook = async () => {
     try {
-      const res = await fetch("https://find-books-suke.onrender.com/api/Book");
+      const res = await fetch(`${BASE_URL}/api/Book`);
       const data = await res.json();
       setBookdata(data);
     } catch (error) {
@@ -37,7 +39,7 @@ export const ManageBooks = () => {
     if (!window.confirm("Are you sure you want to delete this book?")) return;
 
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/Book", {
+      const response = await fetch(`${BASE_URL}/api/Book`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +114,7 @@ export const ManageBooks = () => {
                     <td className="centered">{index + 1}</td>
                     <td>
                       <img
-                        src={`https://find-books-suke.onrender.com/${product.BookImageURL}`}
+                        src={`${BASE_URL}/${product.BookImageURL}`}
                         alt={product.BookName}
                         className="bookImage"
                       />

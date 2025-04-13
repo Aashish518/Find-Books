@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CreditCard, Package, Truck, Shield, ArrowLeft } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 const deliveryChargesArray = [
   { pincode: "380001", charge: 30 },
@@ -106,7 +108,7 @@ export const Payment = () => {
       handler: async (response) => {
         try {
           const verifyResponse = await fetch(
-            "https://find-books-suke.onrender.com/api/verify",
+            `${BASE_URL}/api/verify`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -149,7 +151,7 @@ export const Payment = () => {
 
   const payment = async () => {
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/orders", {
+      const response = await fetch(`${BASE_URL}/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: total + pcharge + deliveryCharge }),
@@ -170,7 +172,7 @@ export const Payment = () => {
 
   const addorder = async () => {
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/addorder", {
+      const response = await fetch(`${BASE_URL}/api/addorder`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -193,7 +195,7 @@ export const Payment = () => {
 
   const clearcart = async () => {
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/Cart", {
+      const response = await fetch(`${BASE_URL}/api/Cart`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -209,7 +211,7 @@ export const Payment = () => {
   useEffect(() => {
     const fetchCarts = async () => {
       try {
-        const response = await fetch("https://find-books-suke.onrender.com/api/CurrentOrder", {
+        const response = await fetch(`${BASE_URL}/api/CurrentOrder`, {
           credentials: "include",
         });
         const json = await response.json();
@@ -271,7 +273,7 @@ export const Payment = () => {
         return;
       }
 
-      const response = await fetch(`https://find-books-suke.onrender.com/api/${"credit"}/codpayment`, {
+      const response = await fetch(`${BASE_URL}/api/${"credit"}/codpayment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

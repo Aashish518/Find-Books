@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../pages-css/EditProfile.css"; 
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const EditProfile = () => {
   const location = useLocation();
@@ -31,7 +33,7 @@ export const EditProfile = () => {
     const [firstName, lastName] = formData.name.split(" "); 
 
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/User", {
+      const response = await fetch(`${BASE_URL}/api/User`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

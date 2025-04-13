@@ -3,9 +3,11 @@ import { useNavigate, Link } from "react-router-dom";
 import Cookies from 'js-cookie';
 import "../pages-css/Login.css";
 import { useAlert } from "../Context/AlertContext";
+import { BaseUrl } from "../components/BaseUrl";
+const BASE_URL = BaseUrl()
 
 export const Login = () => {
-
+ 
   const [isPanelActive, setIsPanelActive] = useState(false);
   const [errors, setErrors] = useState({});
   const [otp, setOtp] = useState("");
@@ -48,7 +50,7 @@ export const Login = () => {
     }
 
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/registerotp", {
+      const response = await fetch(`${BASE_URL}/api/registerotp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: Regcredentials.email }),
@@ -76,7 +78,7 @@ export const Login = () => {
     }
 
     try {
-      const res = await fetch("https://find-books-suke.onrender.com/api/verifyotp", {
+      const res = await fetch(`${BASE_URL}/api/verifyotp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: Regcredentials.email, otp }),
@@ -162,7 +164,7 @@ export const Login = () => {
     }
 
     try {
-      const response = await fetch("https://find-books-suke.onrender.com/api/User", {
+      const response = await fetch(`${BASE_URL}/api/User`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(Regcredentials),
